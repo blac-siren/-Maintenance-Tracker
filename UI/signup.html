@@ -5,26 +5,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="signup.css">
     <title>Sign up</title>
 </head>
 
 <body>
     <div class="container">
-        <h1 class="brand">Maintenace App Tracker.</h1>
+        <h1 class="brand">
+            <span>Maintenance</span> App Tracker.</h1>
         <div class="wrapper">
-                <form class="form" action="#" method="post">
-                    <label for="inputName">Name</label>
-                    <input type="text" class="form-control" id=inputName placeholder="full name">
+            <img src="img.png">
+            <form class="form" action="#" method="">
+                <div class="form-group">
+                    <label for="inputName">Full Name</label>
+                    <input type="text" class="form-control" placeholder="Full Name">
+                </div>
+                <div class="form-group">
                     <label for="inputEmail">Email</label>
-                    <input type="email" class="form-control" id=inputEmail placeholder="email@gmail.com" required="">
+                    <input type="email" class="form-control" placeholder="email@example.com" required="">
+                </div>
+                <div class="form-group">
                     <label for="inputPassword">Password</label>
-                    <input type="password" class="form-control" id=inputPassword placeholder="enter password" required="">
-                    <label for="inputVerify">Verify</label>
-                    <input type="password" class="form-control" id=inputVerify placeholder="password (again)" required="">
+                    <input type="password" class="form-control" placeholder="Enter password" required="">
+                </div>
+                <div class="form-group">
+                    <label for="inputVerify">Confirm</label>
+                    <input type="password" class="form-control" placeholder="Password (again)" required="">
+                </div>
+
+                <div class="button">
                     <button type="submit">Sign up</button>
-                    <form action=""></form>
+                </div>
+                <div class='link' >
+                    <p>Already registered?
+                        <a href="#">Login </a>
+                    </p>
+                </div>
+            </form>
+
         </div>
     </div>
+
 
 </body>
 
