@@ -53,13 +53,13 @@ body {
     margin: 0px;
 }
 
-.form input,
-.form button {
+.form input, .form button {
     width: 100%;
     padding: 1em;
     margin: 10px 0;
     box-sizing: border-box;
     border: 1px solid #32bea6;
+    
 }
 
 .form button {
