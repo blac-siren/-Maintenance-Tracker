@@ -58,3 +58,20 @@ body {
 .link{
     text-align: right;
 }
+
+/* Responsiveness in large screen */
+@media(max-width:700px) {
+    .container {
+        width: 100%;
+    }
+
+
+    .brand {
+        text-align: centre;
+    }
+    .form{
+        width: 80%;
+               /* margin-left: 20%; */
+    }
+
+}
