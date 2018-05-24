@@ -59,15 +59,16 @@ body {
     margin: 10px 0;
     box-sizing: border-box;
     border: 1px solid #32bea6;
-    
+
 }
 
 .form button {
-    background: #32bea6;
+    background: #4CAF50;
     border: 0;
     text-transform: uppercase;
     margin-top: 1em;
     cursor: pointer;
+    border-radius: 5px;
 }
 
 .form button:hover,
