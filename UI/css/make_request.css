@@ -1,0 +1,158 @@
+@import url('https://fonts.googleapis.com/css?family=Comfortaa');
+body {
+    margin: 0 auto;
+    font-family: 'Comfortaa',cursive;
+    background: #32bea6;
+    color: #485e74;
+}
+.sidenav {
+    height: 100%;
+    width: 180px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background: teal;;
+    overflow-x: hidden;
+    padding-top: 50px;
+}
+
+.sidenav a {
+    padding: 10px 20px;
+    text-decoration: none;
+    color: white;
+    font-weight: 300;
+    display: block;
+    transition: all 0.5s ease-in-out;
+}
+
+.sidenav a:hover {
+    background: #282639;
+    border-left: 5px solid #92cf48;
+    padding: 10px 20px 10px 15px;
+}
+
+.active {
+    background: #282639;
+    border-left: 5px solid #92cf48;
+    padding: 10px 20px 10px 15px;
+}
+
+.sidenav .fa {
+    color: white;
+    font-size: 1.4em;
+    margin-right: 0.8rem;
+    display: inline-block;
+    width: 30px;
+    position: relative;
+    top: 2px;
+}
+
+a:hover .fa {
+    color: #92cf48;
+}
+
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+}
+
+.brand {
+    text-align: center;
+}
+
+.brand span {
+    color: #ffff;
+}
+
+h2{
+    text-align: center;
+}
+
+.form {
+    width: 330px;
+    margin-left: 320px;
+    padding: 40px;
+    background-color: #ffff;
+    margin-bottom: 50px;
+    box-shadow: 0 0 20px 0 rgba(72, 94, 116, 0.7);
+    margin: auto;
+    border-radius: 8px;
+}
+
+select{
+        border: 1px solid #32b3a6;
+        background: white;
+}
+
+label{
+    padding-right: 10px;
+}
+
+.form input {
+    width: 100%;
+    padding: 1em;
+    margin: 10px 0;
+    box-sizing: border-box;
+    border: 1px solid #32bea6;
+}
+
+.form button {
+    background-color: #4CAF50;
+    color: white;
+    border: 0;
+    padding: 1em;
+    width: 100%;
+    margin-top: 1em;
+    text-transform: uppercase;
+    font-size: 13px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.form button:hover,
+.form button:focus {
+    color: #ffff;
+    outline: 0;
+    background: #32bea6;
+}
+
+.link {
+    text-align: right;
+}
+
+/* Responsive for large screen */
+
+@media(max-width:700px) {
+    .container {
+        width: 100%;
+    }
+    .brand {
+        text-align: center;
+        font-size: 18px;
+    }
+
+    h2{
+        font-size: 15px;
+
+    }
+    .form {
+        width: 50%;
+        margin-left: 62px;
+    }
+        .sidenav {
+            width: 20%;
+            font-size: 14px;
+    }
+
+    .sidenav a {
+        padding: 10px 7px;
+    }
+
+    .sidenav .fa {
+        display: none;
+    }
+
+}

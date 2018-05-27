@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/admin_dashboard.css">
+    <title>Admin Dashboard</title>
+</head>
+
+<body>
+    <div class="sidenav">
+
+        <a href="#" class="active">
+            <i class="fa fa-home" aria-hidden="true"></i>
+            Home</a>
+        <a href="#">
+            <i class="fa fa-bell" aria-hidden="true"></i>
+            Requests</a>
+        <a href="#accepted">
+            <i class="fa fa-thumb-tack" aria-hidden="true"></i>
+            Accepted</a>
+        <a href="#completed">
+            <i class="fa fa-calendar-check-o" aria-hidden="true"></i>
+            Completed</a>
+        <a href="#">
+            <i class="fa fa-sign-out" aria-hidden="true"></i>
+            Logout </a>
+    </div>
+    <div class="container">
+        <h2 class="brand" id='accepted'>
+            <span>Accepted </span> Services.</h2>
+        <p>sortby
+            <select name="" id="">
+                <option value="">Name</option>
+                <option value="">1D</option>
+                <option value="">Date</option>
+                <option value="">Latest update</option>
+            </select>
+        </p>
+        <table class="table1">
+            <thead>
+                <tr>
+                    <th>1D</th>
+                    <th>Name</th>
+                    <th>Request</th>
+                    <th>Location</th>
+                    <th>Services</th>
+                    <th>Recevied</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <td>0034</td>
+                <td>Abel Juma</td>
+                <td>Plumbering</td>
+                <td>Hurligham</td>
+                <td>Repair</td>
+                <td>29-Jan-2018</td>
+                <td>
+                    <select>
+                        <option value="">Started</option>
+                        <option value="">Not Started</option>
+                        <option value="">In progess</option>
+                        <option value="">Completed</option>
+                    </select>
+                </td>
+            </tbody>
+            <tbody>
+                <td>0045</td>
+                <td>Noah Juma</td>
+                <td>Fix tv</td>
+                <td>Westland</td>
+                <td>Repair</td>
+                <td>29-Feb-2018</td>
+                <td>
+                    <select>
+                        <option value="">In progress</option>
+                        <option value="">Started</option>
+                        <option value="">Not started</option>
+                        <option value="">Completed</option>
+                    </select>
+                </td>
+            </tbody>
+            <tbody>
+                <td>024</td>
+                <td>John Doe</td>
+                <td>Gardening</td>
+                <td>Lavington</td>
+                <td>Maintenance</td>
+                <td>04-Apr-2018</td>
+                <td>
+                    <select>
+                        <option value="">Not Started</option>
+                        <option value="">Started</option>
+                        <option value="">In progress</option>
+                        <option value="">Completed</option>
+                    </select>
+                </td>
+            </tbody>
+                        <tbody>
+                <td>024</td>
+                <td>John Doe</td>
+                <td>Gardening</td>
+                <td>Lavington</td>
+                <td>Maintenance</td>
+                <td>04-Apr-2018</td>
+                <td>
+                    <select>
+                        <option value="">Completed</option>
+                        <option value="">Started</option>
+                        <option value="">In progress</option>
+                        <option value="">Completed</option>
+                    </select>
+                </td>
+            </tbody>
+        </table>
+
+        <br>
+        <br>
+        <br>
+        <h2 class="brand" id='completed'>
+            <span> Completed </span> Services.</h2>
+        <table class="table2">
+            <thead>
+                <tr>
+                    <th>1D</th>
+                    <th>Name</th>
+                    <th>Request</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <td>0034</td>
+                <td>Abel Juma</td>
+                <td>Plumbering</td>
+                <td style="color: maroon;">29-Jan-2018</td>
+                <td style="color: teal; font-weight: bold;">Resolved</td>
+            </tbody>
+            <tbody>
+                <td>0045</td>
+                <td>Noah ali</td>
+                <td>Fix cable</td>
+                <td style="color: maroon;">19-May-2018</td>
+                <td style="color: teal; font-weight: bold;">Resolved</td>
+            </tbody>
+            <tbody>
+                <td>0028</td>
+                <td>Mohammed Ali</td>
+                <td>Gardening</td>
+                <td style="color: maroon;">03-Jun-2018</td>
+                <td style="color: teal; font-weight: bold;">Resolved</td>
+            </tbody>
+            <tbody>
+                <td>0034</td>
+                <td>Musa Yussuf</td>
+                <td>Phone repair</td>
+                <td style="color: maroon;">14-Oct-2018</td>
+                <td style="color: teal; font-weight: bold;">Resolved</td>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>
