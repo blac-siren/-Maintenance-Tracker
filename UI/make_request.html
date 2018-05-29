@@ -12,11 +12,11 @@
 
 <body>
     <div class="sidenav">
-        <a href="#">
+        <a href="user_dashboard.html">
             <i class="fa fa-home" aria-hidden="true"></i>Home</a>
         <a href="#" class="active">
             <i class="fa fa-filter" aria-hidden="true"></i>Request</a>
-        <a href="">
+        <a href="login.html">
             <i class="fa fa-sign-out" aria-hidden="true"></i>sign-out</a>
     </div>
     <div class="container">
@@ -25,12 +25,19 @@
             <h2>Request Form</h2>
         <form class="form" method="POST">
 
-            <label for="type">Category</label>
-            <input type="text" id="type" placeholder="Maintenace/Repair" required="">
+
+
             <label for="request">Request</label>
+
             <input type="text" id="request" required="">
             <label for="location">Location</label>
             <input type="text" id="location" required="">
+
+            <label for="type">Category:</label>
+            <select name="" id="">
+            <option value="">Maintenace</option>
+            <option value="">Repair</option>
+            </select>
             <button type="submit">Submit</button>
 
         </form>
