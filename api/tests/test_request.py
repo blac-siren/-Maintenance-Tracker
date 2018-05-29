@@ -7,7 +7,7 @@ class RequestTestCase(unittest.TestCase):
     def setUp(self):
         """sets up the data."""
         self.client = self.app.test_client
-        self.request = [{"request": "Plumbering", "location": "Hurligham"}]
+        self.request = {"request": "Plumbering", "location": "Hurligham"}
 
     def tearDown(self):
         """teardown all initialized data."""
@@ -20,7 +20,7 @@ class RequestTestCase(unittest.TestCase):
         self.assertEqual(result['message'], 'Succesfully created')
 
     def test_api_fetch_all_request(self):
-        """Test API Can fetch all request (GET request)."""
+        """Test API fetch all request (GET request)."""
         res = self.client().post('/api/v1/users/requests', data=self.request)
         self.assertEqual(res.status_code, 201)
         res = self.client().get('/api/v1/users/requests')
