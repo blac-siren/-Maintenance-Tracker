@@ -85,6 +85,9 @@ h2{
 select{
         border: 1px solid #32b3a6;
         background: white;
+        border: none;
+        margin-bottom: 10px;
+        margin-top: 10px;
 }
 
 label{
