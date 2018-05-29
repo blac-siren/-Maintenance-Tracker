@@ -12,14 +12,14 @@ class UserApiTestCase(unittest.TestCase):
     def setUp(self):
         self.client = self.app.test_client
         self.user_details = {
-                'username': 'Test''
-                'email': 'example@example.com',
-                'password': 'test_password',
+            'username': 'Test',
+            'email': 'example@example.com',
+            'password': 'test_password',
         }
 
     def tearDown(self):
         """Tear down all initialized variables"""
-        user_details.clear()
+        self.user_details.clear()
 
     def register_user(self,
                       first_name='Test',
@@ -30,7 +30,6 @@ class UserApiTestCase(unittest.TestCase):
             'email': email,
             'password': password,
             'Username': first_name,
-
         }
         return self.client().post('/api/v1/register', data=user_details)
 
@@ -42,40 +41,44 @@ class UserApiTestCase(unittest.TestCase):
         }
         return self.client().post('api/v1/login', data=user_details)
 
-
         def test_registration(self):
             """Tests if user registration works correctly"""
             res = self.client().post('api/v1/register', data=self.user_details)
             # get the results in json format
             result = json.loads(res)
-            self.assertEqual(result['message'], 'You have successfully registered')
+            self.assertEqual(result['message'],
+                             'You have successfully registered')
             self.assertEqual(res.status_code, 201)
-
-
-
 
     def test_registration_with_short_password_provided(self):
         """Makes a post request to the api with a password and tests if user
         will be registered"""
-        res = self.client().post('api/v1/register', data={'username': 'test',
-                                                            'email': 'example@example.com',
-                                                            'password': 'pasword',
-                                                            })
+        res = self.client().post(
+            'api/v1/register',
+            data={
+                'username': 'test',
+                'email': 'example@example.com',
+                'password': 'pasword',
+            })
         # get the result in json format
         result = json.loads(res)
         self.assertEqual(result['message'], 'Password must be greater than 8')
 
     def test_login_password_mismatch(self):
         """Makes a post request to the api with wrong password and test login"""
-        res = self.client().post('api/v1/register', data={'Username': 'test',
-                                                            'email': 'example@example.com',
-                                                            'password': '123455678',
-
-                                                            })
-        login_res = self.client().post('api/v1/login', data={
-                                                                 'email': 'test@example.com',
-                                                                 'password': 'INVALID PASSWORD'
-                                                                 })
+        res = self.client().post(
+            'api/v1/register',
+            data={
+                'Username': 'test',
+                'email': 'example@example.com',
+                'password': '123455678',
+            })
+        login_res = self.client().post(
+            'api/v1/login',
+            data={
+                'email': 'test@example.com',
+                'password': 'INVALID PASSWORD'
+            })
         res = json.loads(login_res.data.decode())
         self.assertEqual(res['message'], 'Incorrect Email or Password')
 
@@ -88,10 +91,7 @@ class UserApiTestCase(unittest.TestCase):
         self.assertEqual(results['message'], 'You have successfully logged in')
 
     def test_unregistered_user_login(self):
-        none_exist = {
-            "email": "asgh@googligoo.com",
-            "password": 'bbbbasdghj'
-            }
+        none_exist = {"email": "asgh@googligoo.com", "password": 'bbbbasdghj'}
         login_res = self.client().post('api/v1/auth/login', data=none_exist)
         result = json.loads(res)
         self.assertEqual(result['message'], 'Incorrect Email or Password')
@@ -100,9 +100,12 @@ class UserApiTestCase(unittest.TestCase):
         """Test register a user who is already registered"""
         self.client().post('api/v1/auth/register', data=self.user_details)
 
-        second_res = self.client().post('api/v1/auth/register', data=self.user_details)
+        second_res = self.client().post(
+            'api/v1/auth/register', data=self.user_details)
         result = json.loads(res)
-        self.assertEqual(result['message'], 'User already exists. Please login')
+        self.assertEqual(result['message'],
+                         'User already exists. Please login')
+
 
 if __name__ == '__main__':
     unittest.main()
