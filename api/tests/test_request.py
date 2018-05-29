@@ -1,8 +1,9 @@
 import unittest
 import json
 
+
 class RequestTestCase(unittest.TestCase):
-    """This class represents the bucketlist test case"""
+    """This class represents the request test case"""
 
     def setUp(self):
         """sets up the data."""
