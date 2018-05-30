@@ -3,7 +3,7 @@ Test for User login and Registration
 """
 import unittest
 import json
-from app.__init__ import app
+from app import app
 
 
 class UserApiTestCase(unittest.TestCase):
@@ -45,11 +45,10 @@ class UserApiTestCase(unittest.TestCase):
 
         def test_registration(self):
             """Tests if user registration works correctly"""
-            res = self.client().post('api/v1/register', data=self.user_details)
+            res = self.client().post('/register', data=self.user_details)
             # get the results in json format
             result = json.loads(res)
-            self.assertEqual(result['message'],
-                             'You have successfully registered')
+            self.assertEqual(result['message'], 'Successfully Registered')
             self.assertEqual(res.status_code, 201)
 
     def test_registration_with_short_password_provided(self):
@@ -87,7 +86,7 @@ class UserApiTestCase(unittest.TestCase):
     def test_user_login(self):
         """Test user login"""
         self.client().post('/v2/auth/register', data=self.user_data)
-        login_res = self.client().post('/v1/auth/login', data=self.user_data)
+        login_res = self.client().post('/login', data=self.user_data)
         results = json.loads(login_res)
         self.assertEqual(results['message'], 'You have successfully logged in')
 

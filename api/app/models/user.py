@@ -1,7 +1,6 @@
 """Module for storing data in dictionary."""
 from flask_bcrypt import Bcrypt
 import datetime
-import jwt
 import uuid
 
 
@@ -19,15 +18,20 @@ class User:
 
     def create_user(self):
         """Save user info into dictionary."""
-        user_details = {
-            'email': self.email,
-            'username': self.username,
-            'id': self.public_id,
-            'password': self.password_hash
+        user_detail = {
+            self.email: {
+                'username': self.username,
+                'id': self.public_id,
+                'password': self.password_hash
+            }
         }
 
-        User.user_info.update(user_details)
-        return user_details
+        User.user_info.update(user_detail)
+        return user_detail
+
+    def password_is_valid(self, password):
+        """Validate password against its hash"""
+        return Bcrypt().check_password_hash(self.password_hash, password)
 
     def __repr__(self):
         return '<Username> {}'.format(self.username)

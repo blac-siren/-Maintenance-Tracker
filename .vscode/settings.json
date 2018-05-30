@@ -1,0 +1,6 @@
+{
+    "python.unitTest.nosetestArgs": [
+        "api"
+    ],
+    "python.unitTest.nosetestsEnabled": true
+}
