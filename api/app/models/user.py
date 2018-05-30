@@ -20,12 +20,12 @@ class User:
     def create_user(self):
         """Save user info into dictionary."""
         user_details = {
-            self.email: {
-                'username': self.username,
-                'id': self.public_id,
-                'password': self.password_hash
-            }
+            'email': self.email,
+            'username': self.username,
+            'id': self.public_id,
+            'password': self.password_hash
         }
+
         User.user_info.update(user_details)
         return user_details
 

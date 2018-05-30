@@ -2,6 +2,8 @@
 Test for User login and Registration
 """
 import unittest
+import json
+from app.__init__ import app
 
 
 class UserApiTestCase(unittest.TestCase):
@@ -22,24 +24,24 @@ class UserApiTestCase(unittest.TestCase):
         self.user_details.clear()
 
     def register_user(self,
-                      first_name='Test',
+                      username='Test',
                       email='example@example.com',
                       password='test_password'):
         """Implied registration . A helper method"""
         user_details = {
             'email': email,
             'password': password,
-            'Username': first_name,
+            'Username': username,
         }
         return self.client().post('/api/v1/register', data=user_details)
 
     def login_user(self, email='user1234@gmail.com', password='testpassword'):
         """Implied login. A helper method"""
-        user_details = {
+        user_data = {
             'email': email,
             'password': password,
         }
-        return self.client().post('api/v1/login', data=user_details)
+        return self.client().post('api/v1/login', data=user_data)
 
         def test_registration(self):
             """Tests if user registration works correctly"""
@@ -86,14 +88,13 @@ class UserApiTestCase(unittest.TestCase):
         """Test user login"""
         self.client().post('/v2/auth/register', data=self.user_data)
         login_res = self.client().post('/v1/auth/login', data=self.user_data)
-
-        results = json.loads(res)
+        results = json.loads(login_res)
         self.assertEqual(results['message'], 'You have successfully logged in')
 
     def test_unregistered_user_login(self):
         none_exist = {"email": "asgh@googligoo.com", "password": 'bbbbasdghj'}
         login_res = self.client().post('api/v1/auth/login', data=none_exist)
-        result = json.loads(res)
+        result = json.loads(login_res)
         self.assertEqual(result['message'], 'Incorrect Email or Password')
 
     def test_already_registered(self):
@@ -102,7 +103,7 @@ class UserApiTestCase(unittest.TestCase):
 
         second_res = self.client().post(
             'api/v1/auth/register', data=self.user_details)
-        result = json.loads(res)
+        result = json.loads(second_res)
         self.assertEqual(result['message'],
                          'User already exists. Please login')
 

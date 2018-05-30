@@ -1,7 +1,6 @@
 import os
 from flask import Flask
 from flask_restplus import Api
-
 from config import app_config
 
 app = Flask(__name__)
