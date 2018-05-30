@@ -12,7 +12,7 @@ class UserApiTestCase(unittest.TestCase):
     """
 
     def setUp(self):
-        self.client = self.app.test_client
+        self.client = app.test_client
         self.user_details = {
             'username': 'Test',
             'email': 'example@example.com',
@@ -37,11 +37,11 @@ class UserApiTestCase(unittest.TestCase):
 
     def login_user(self, email='user1234@gmail.com', password='testpassword'):
         """Implied login. A helper method"""
-        user_data = {
+        self.user_data = {
             'email': email,
             'password': password,
         }
-        return self.client().post('api/v1/login', data=user_data)
+        return self.client().post('api/v1/login', data=self.user_data)
 
         def test_registration(self):
             """Tests if user registration works correctly"""
