@@ -79,10 +79,10 @@ class RequestTestCase(unittest.TestCase):
         """Test Api delete response."""
         res = self.client().post('/api/v1/users/requests', data=self.request)
         self.assertEqual(res.status_code, 201)
-        delete_res = self.client().delete('/api/v1/requests/1')
+        del_res = self.client().delete('/api/v1/requests/1')
         result = json.loads(res)
         self.assertEqual(result['message'], "Successfully deleted")
-        self.assertEqual(res.status_code, 200)
+        self.assertEqual(del_res.status_code, 200)
 
     def test_delete_request_not_found(self):
         res = self.client().delete('api/v1/users/3e')
