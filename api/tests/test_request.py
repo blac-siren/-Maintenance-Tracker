@@ -1,7 +1,7 @@
 import unittest
 import json
 
-from app.api.app.__init__ import app
+from app.__init__ import app
 
 
 class RequestTestCase(unittest.TestCase):
@@ -76,7 +76,7 @@ class RequestTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 404)
 
     def test_delete_request_by_id(self):
-        """Test Api delete response."""s
+        """Test Api delete response."""
         res = self.client().post('/api/v1/users/requests', data=self.request)
         self.assertEqual(res.status_code, 201)
         delete_res = self.client().delete('/api/v1/requests/1')
@@ -84,12 +84,11 @@ class RequestTestCase(unittest.TestCase):
         self.assertEqual(result['message'], "Successfully deleted")
         self.assertEqual(res.status_code, 200)
 
-    def test_delete_request_not found(self):
+    def test_delete_request_not_found(self):
         res = self.client().delete('api/v1/users/3e')
         result = json.loads(res)
         self.assertEqual(result['message'], 'Not found!')
         self.assertEqual(res.status_code, 404)
-
 
 
 if __name__ == "__main__":
