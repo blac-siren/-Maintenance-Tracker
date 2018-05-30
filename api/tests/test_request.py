@@ -40,19 +40,19 @@ class RequestTestCase(unittest.TestCase):
         """Test API can edit an existing  request. (PUT request)."""
         res = self.client().post('/api/v1/users/requests', data=self.request)
         self.assertEqual(res.status_code, 201)
-        res = self.client().put(
+        edit_res = self.client().put(
             'api/v1/requests/1',
             data={
                 "request": "gardening",
                 "location": "Pangani"
             })
-        self.assertEqual(res.status_code, 200)
+        self.assertEqual(edit_res.status_code, 201)
         results = self.client().get('/api/v1/requests/1')
         self.assertIn('{"request":"gardening", "location": "Pangani"}',
                       str(results.data))
 
     def test_request_not_found_by_id(self):
-        """Test Api responds when no request. (GET request)."""
+        """Test Api response when no request. (GET request)."""
         res = self.client().get('/api/v1/users/requests/2t')
         self.assertEqual(res.status_code, 404)
 
@@ -74,6 +74,22 @@ class RequestTestCase(unittest.TestCase):
         result = json.loads(res)
         self.assertEqual(result["message"], "Request Not Found!")
         self.assertEqual(res.status_code, 404)
+
+    def test_delete_request_by_id(self):
+        """Test Api delete response."""s
+        res = self.client().post('/api/v1/users/requests', data=self.request)
+        self.assertEqual(res.status_code, 201)
+        delete_res = self.client().delete('/api/v1/requests/1')
+        result = json.loads(res)
+        self.assertEqual(result['message'], "Successfully deleted")
+        self.assertEqual(res.status_code, 200)
+
+    def test_delete_request_not found(self):
+        res = self.client().delete('api/v1/users/3e')
+        result = json.loads(res)
+        self.assertEqual(result['message'], 'Not found!')
+        self.assertEqual(res.status_code, 404)
+
 
 
 if __name__ == "__main__":
