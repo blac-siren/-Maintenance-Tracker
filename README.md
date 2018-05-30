@@ -11,6 +11,12 @@ Maintenance Tracker App is an application that provides users with the ability t
 * Table that admin can view all request, accept or reject a request.
 * Table for user to view all resolved request.
 
+## Download and Installation
+* Clone the repository into your local machine https://github.com/blac-siren/Maintenance-Tracker.git
+* Open terminal and cd to project
+* use command `git pull origin develop` to get project
+* Open project in your text editor/ IDE
+
 ## BUILT WITH
 * [HTML/CSS] - markup and styling sheet.
 
