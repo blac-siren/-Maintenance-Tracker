@@ -39,8 +39,8 @@ $ nosetests
 
 ### Api endpoints
 
-| url | Method|  Description|
-| --- | --- | --- | --- |
+| url | Method|  Description 
+| --- | --- | --- 
 | /api-v1/register | POST | Registers new user 
 | /api-v1/login | POST | Handles POST request for /login
 | /api-v1/users/requests | GET | Get every requests of logged in user
