@@ -1,0 +1,3 @@
+[
+  "tests/test_request.py::RequestTestCase::test_make_request"
+]

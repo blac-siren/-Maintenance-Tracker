@@ -1,0 +1,5 @@
+{
+  "tests/test_request.py::RequestTestCase::test_api_fetch_all_request": true,
+  "tests/test_request.py::RequestTestCase::test_make_request": true,
+  "tests/test_user.py::UserApiTestCase::test_registration": true
+}

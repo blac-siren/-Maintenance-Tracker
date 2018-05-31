@@ -57,7 +57,7 @@ class login(Resource):
             return {'Message': 'Invalid, all fields required!'}
         else:
 
-            return {'Message': 'Successfully logged in'}, 200
+            return {"Accounts" 'Message': 'Successfully logged in'}, 200
 
 
 @api.route('/users/requests')
@@ -72,31 +72,48 @@ class RequestList(Resource):
         """Handle [Endpoint] GET."""
         data = request.get_json()
         try:
-            requested = data['requested']
+            req = data['req']
             category = data['category']
             location = data['location']
         except KeyError:
             return {'Message': "All data required"}
         else:
-            create = CreateRequest(requested, category, location)
+            create = CreateRequest(req, category, location)
             create.save_request()
-
-            return {
-                "reeeeeee": create.all_requests,
-                "message": "successfully created"
-            }
+            return {"message": "successfully created"}, 201
 
 
 @api.route('/users/requests/<int:id>')
 class Request(Resource):
     def put(self, id):
-        edited_request = CreateRequest.all_requests[id]
+        for req in CreateRequest.all_requests:
+            if req == id:
+                request_data = CreateRequest.all_requests[id]
+
+        if len(request_data) == 0:
+            return {"Message": "Not found"}, 404
         data = request.get_json()
         try:
-            edited_request['requested'] = data['requested']
-            edited_request['category'] = data['category']
-            edited_request['location'] = data['location']
+            request_data['category'] = data['category']
+            request_data['req'] = data['req']
+            request_data['location'] = data['location']
+
         except KeyError:
             return {'Message': "All data required"}
         else:
+
             return {"message": "successfully updated"}
+
+    def get(self, id):
+        """Get one request by ID."""
+        for req in CreateRequest.all_requests:
+            if req == id:
+                request_data = CreateRequest.all_requests[id]
+        return {'request': request_data}
+
+    def delete(self, id):
+        """Delete a request."""
+        for req in CreateRequest.all_requests:
+            if req == id:
+                request_data = CreateRequest.all_requests[id]
+        return {"message": "Deleted  successfully"}
