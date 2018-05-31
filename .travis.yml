@@ -10,7 +10,8 @@ install:
 
 script:
   - nosetests
-  - nosetests --with-coverage --cover-package=app
+  - nosetests --with-coverage --cover-package=myapp
+  - coveralls
 
 after_success:
   - coveralls
