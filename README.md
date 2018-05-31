@@ -1,4 +1,4 @@
-https://travis-ci.org/blac-siren/Maintenance-Tracker.svg?branch=deployment
+[![Build Status](https://travis-ci.org/blac-siren/Maintenance-Tracker.svg?branch=deployment)](https://travis-ci.org/blac-siren/Maintenance-Tracker)
 # Maintenance-Tracker
 
 
