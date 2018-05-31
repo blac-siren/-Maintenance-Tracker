@@ -32,6 +32,8 @@ class Registration(Resource):
 
         if email in User.user_info:
             return {'message': 'Email already Exist'}
+        if len(password) <= 8:
+            return {'Message': "Password must be greater than 8"}
         else:
             user = User(username, email, password)
             user.create_user()
@@ -48,16 +50,18 @@ class login(Resource):
     def post(self):
         """Login a registered user."""
         data = request.get_json()
-
         try:
             email = data['email']
             password = data['password']
-
         except KeyError:
             return {'Message': 'Invalid, all fields required!'}
         else:
-
-            return {"Accounts" 'Message': 'Successfully logged in'}, 200
+            password_hash = User.user_info[email]['password']
+            if email in User.user_info and bcrypt.check_password_hash(
+                    password_hash, password):
+                return {'Message': 'Successfully logged in'}, 200
+            else:
+                return {"Message": "Incorrect Email or Password "}
 
 
 @api.route('/users/requests')
@@ -66,7 +70,7 @@ class RequestList(Resource):
 
     def get(self):
         """Handle [Endpoint] GET."""
-        return CreateRequest.all_requests
+        return {"Requests": CreateRequest.all_requests}, 200
 
     def post(self):
         """Handle [Endpoint] GET."""
@@ -116,4 +120,4 @@ class Request(Resource):
         for req in CreateRequest.all_requests:
             if req == id:
                 request_data = CreateRequest.all_requests[id]
-        return {"message": "Deleted  successfully"}
+        return {"message": "Deleted {} successfully".format(request_data)}

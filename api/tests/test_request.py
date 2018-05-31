@@ -2,7 +2,7 @@
 
 import unittest
 import json
-
+from app.models.request import CreateRequest
 from app import app
 
 
@@ -13,14 +13,14 @@ class RequestTestCase(unittest.TestCase):
         """sets up the data."""
         self.client = app.test_client
         self.request = {
-            "requested": "Plumbering",
+            "req": "Plumbering",
             "location": "Hurligham",
             "category": "Maintenance"
         }
 
     def tearDown(self):
         """teardown all initialized data."""
-        self.request.clear()
+        CreateRequest.all_requests.clear()
 
     def test_make_request(self):
         """Test create request (POST request)"""
@@ -32,24 +32,33 @@ class RequestTestCase(unittest.TestCase):
                 "req": "plumbering"
             }),
             content_type='application/json')
-        print('####################', res)
-        # result = json.loads(res)
-        # self.assertEqual(result['message'], 'Succesfully created')
+
+        result = json.loads(res.data)
+        self.assertEqual(result['message'], 'successfully created')
         self.assertEqual(res.status_code, 201)
 
-    # def test_api_fetch_all_request(self):
-    #     """Test API fetch all request (GET request)."""
-    #     res = self.client().post('/api/v1/users/requests', data=self.request)
-    #     self.assertEqual(res['message'], 'Succesfully created')
-    #     res = self.client().get('/api/v1/users/requests')
-    #     self.assertEqual(res.status_code, 200)
+    def test_api_fetch_all_request(self):
+        """Test API fetch all request (GET request)."""
+        res = self.client().post(
+            '/api/v1/users/requests',
+            content_type="application/json",
+            data=json.dumps(self.request))
+        result = json.loads(res.data)
+        self.assertEqual(result['message'], 'successfully created')
 
-    # def test_api_can_get_request_by_id(self):
-    #     """Test API can get a single request using id."""
-    #     res = self.client().post('/api/v1/users/requests', data=self.request)
-    #     self.assertEqual(res.status_code, 201)
-    #     result = self.client().get('/api/v1/users/requests/1')
-    #     self.assertEqual(result.status_code, 200)
+        res1 = self.client().get(
+            '/api/v1/users/requests', content_type="application/json")
+        self.assertEqual(res1.status_code, 200)
+
+    def test_api_can_get_request_by_id(self):
+        """Test API can get a single request using id."""
+        res = self.client().post(
+            '/api/v1/users/requests',
+            content_type='application/json',
+            data=json.dumps(self.request))
+        self.assertEqual(res.status_code, 201)
+        result = self.client().get('/api/v1/users/requests/1')
+        self.assertEqual(result.status_code, 200)
 
     # def test_request_can_be_edited(self):
     #     """Test API can edit an existing  request. (POST request)."""

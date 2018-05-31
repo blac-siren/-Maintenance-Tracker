@@ -1,3 +1,9 @@
 [
-  "tests/test_request.py::RequestTestCase::test_make_request"
+  "tests/test_request.py::RequestTestCase::test_api_fetch_all_request",
+  "tests/test_request.py::RequestTestCase::test_make_request",
+  "tests/test_user.py::UserApiTestCase::test_already_registered",
+  "tests/test_user.py::UserApiTestCase::test_login_password_mismatch",
+  "tests/test_user.py::UserApiTestCase::test_registration",
+  "tests/test_user.py::UserApiTestCase::test_registration_with_short_password_provided",
+  "tests/test_user.py::UserApiTestCase::test_user_login"
 ]
