@@ -2,6 +2,10 @@
 from flask_bcrypt import Bcrypt
 import datetime
 import uuid
+import jwt
+
+# local imports
+from app import app
 
 
 class User:
@@ -19,19 +23,25 @@ class User:
     def create_user(self):
         """Save user info into dictionary."""
         user_detail = {
-            self.email: {
-                'username': self.username,
-                'id': self.public_id,
-                'password': self.password_hash
-            }
+            "email": self.email,
+            'username': self.username,
+            'id': self.public_id,
+            'password': self.password_hash
         }
 
         User.user_info.update(user_detail)
         return user_detail
 
-    def password_is_valid(self, password):
-        """Validate password against its hash"""
-        return Bcrypt().check_password_hash(self.password_hash, password)
+    def generate_token(self, user_id):
+        """Generate Auth Token."""
+        payload = {
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30),
+            'iat': datetime.datetime.utcnow(),
+            'sub': user_id
+        }
+        return jwt.encode(
+            self, payload, app.config.get('SECRET_KEY'), algorithm='HS256')
 
     def __repr__(self):
+        """Representation of the model."""
         return '<Username> {}'.format(self.username)
