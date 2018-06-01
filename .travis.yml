@@ -9,9 +9,8 @@ install:
   - pip install coveralls
 
 script:
-  - nose2
-  - nose2 --with-coverage
-  - coveralls
+  - nosetests
+  - nosetests --with-coverage --cover-package=app
 
 after_success:
   - coveralls
