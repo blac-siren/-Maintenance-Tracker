@@ -103,7 +103,3 @@ class UserApiTestCase(unittest.TestCase):
             content_type="application/json")
         result = json.loads(second_res.data)
         self.assertEqual(result['message'], 'Email already Exist')
-
-
-if __name__ == '__main__':
-    unittest.main()

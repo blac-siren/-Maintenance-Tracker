@@ -62,7 +62,8 @@ class RequestTestCase(unittest.TestCase):
 
     # def test_request_can_be_edited(self):
     #     """Test API can edit an existing  request. (POST request)."""
-    #     res = self.client().post('/api/v1/users/requests', data=self.request)
+    #     res = self.client().post(
+    #         '/api/v1/users/requests', data=json.dumps(self.request))
     #     self.assertEqual(res.status_code, 201)
     #     edit_res = self.client().put(
     #         'api/v1/requests/1',
@@ -113,7 +114,3 @@ class RequestTestCase(unittest.TestCase):
     #     result = json.loads(res)
     #     self.assertEqual(result['message'], 'Not found!')
     #     self.assertEqual(res.status_code, 404)
-
-
-# if __name__ == "__main__":
-#     unittest.main()
