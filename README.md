@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/blac-siren/Maintenance-Tracker.svg?branch=deployment)](https://travis-ci.org/blac-siren/Maintenance-Tracker)
+[![Coverage Status](https://coveralls.io/repos/github/blac-siren/Maintenance-Tracker/badge.svg?branch=deployment)](https://coveralls.io/github/blac-siren/Maintenance-Tracker?branch=deployment)
 # Maintenance-Tracker
 
 
