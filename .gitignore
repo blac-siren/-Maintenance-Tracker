@@ -142,8 +142,10 @@ ENV/
 .mypy_cache/
 
 
-.noseids/
+.noseids
 /.idea
 .vscode/
-.pytest_cache
+.pytest_cache/
 __pycache__
+
+.pytest_cache/

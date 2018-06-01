@@ -1,20 +1,19 @@
 language:
- - python
+ - "python"
 
 python:
-  - 3.6
+  - "3.6"
 
 install:
-  - pip3 install -r api/requirements.txt
-  - pip install coveralls
+  - "pip install -r api/requirements.txt"
+  - "pip install coveralls"
 
 script:
-  - nosetests
-  - nosetests --with-coverage --cover-package=api/app
-  - coveralls
+  - "pytest"
+  - "coverage run --source=app -m pytest  && coverage report"
 
 after_success:
-  - coveralls
+  - "coveralls"
 
 after_success:
-  - coveralls
+  "coveralls"

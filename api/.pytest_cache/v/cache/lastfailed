@@ -1,4 +1,3 @@
 {
-  "tests/test_request.py::RequestTestCase::test_api_fetch_all_request": true,
   "tests/test_user.py::UserApiTestCase::test_unregistered_user_login": true
 }

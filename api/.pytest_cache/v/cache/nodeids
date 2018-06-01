@@ -1,4 +1,5 @@
 [
+  "tests/test_request.py::RequestTestCase::test_api_can_get_request_by_id",
   "tests/test_request.py::RequestTestCase::test_api_fetch_all_request",
   "tests/test_request.py::RequestTestCase::test_make_request",
   "tests/test_user.py::UserApiTestCase::test_already_registered",
