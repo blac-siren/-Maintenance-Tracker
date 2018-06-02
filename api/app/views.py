@@ -103,6 +103,7 @@ class Registration(Resource):
 class login(Resource):
     """Handle /login route."""
 
+    @api.expect(login_model)
     def post(self):
         """Login a registered user."""
         data = request.get_json()
