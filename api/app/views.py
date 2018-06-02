@@ -8,6 +8,9 @@ from flask_bcrypt import Bcrypt
 import re
 import json
 
+# local imports
+from app.token import token_required
+
 bcrypt = Bcrypt()
 
 # Namespaces
@@ -28,14 +31,28 @@ registration_model = api.model(
         fields.String(
             requires=True,
             description="Your password account",
-            example="U#76pJrr")
+            example="U#76pJr3r")
+    })
+
+login_model = api.model(
+    'Login', {
+        "email":
+        fields.String(
+            requires=True,
+            description='email account',
+            example="joe_doe@example.com"),
+        "password":
+        fields.String(
+            requires=True,
+            description="Your password account",
+            example="U#76pJr3r")
     })
 
 # User registration validation
 email_regex = re.compile(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)")
 
 
-@api.route('/register')
+@auth_namespace.route('/register')
 @api.doc(
     {
         201: 'user created successfully',
@@ -46,6 +63,7 @@ email_regex = re.compile(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)")
 class Registration(Resource):
     """Handles registration Routes."""
 
+    @api.expect(registration_model)
     def post(self):
         """Register new user."""
         data = request.get_json()
@@ -54,7 +72,7 @@ class Registration(Resource):
             username = data['username']
             password = data['password']
         except KeyError:
-            return {'Message': 'Fill up all the fields!'}, 400
+            return {'Message': 'All input data required!'}, 400
         if len(email) > 5:
             if not re.match(email_regex, email):
                 return {
@@ -81,7 +99,7 @@ class Registration(Resource):
                 }, 201
 
 
-@api.route('/login')
+@auth_namespace.route('/login')
 class login(Resource):
     """Handle /login route."""
 
@@ -92,14 +110,19 @@ class login(Resource):
             email = data['email']
             password = data['password']
         except KeyError:
-            return {'Message': 'Invalid, all fields required!'}
+            return {'Message': 'Invalid, all fields required!'}, 400
         else:
-            password_hash = User.user_info[email]['password']
-            if email in User.user_info and bcrypt.check_password_hash(
-                    password_hash, password):
-                return {'Message': 'Successfully logged in'}, 200
+            if [
+                    user for user in User.user_info if user['email'] == email
+                    and bcrypt.check_password_hash(user['password'], password)
+            ]:
+                token_access = User.generate_token(email)
+                return {
+                    'Access token': token_access.decode(),
+                    'Message': 'Successfully logged in'
+                }, 200
             else:
-                return {"Message": "Incorrect Email or Password "}
+                return {"Message": "Incorrect Email or Password "}, 411
 
 
 @api.route('/users/requests')
