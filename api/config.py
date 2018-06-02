@@ -1,21 +1,26 @@
+"""Module for configuration."""
 import os
 
 
 class Config(object):
+    """Parent configuration class."""
+
     DEBUG = False
-    TESTING = False
     CSRF_ENABLED = True
-
-
-class ProductionConfig(Config):
-    DEBUG = False
+    SECRET = os.getenv('SECRET')
 
 
 class DevelopmentConfig(Config):
-    DEVELOPMENT = True
+    """Configurations for Development."""
+
     DEBUG = True
 
-app_config = {
-    'development': DevelopmentConfig,
-    'production': ProductionConfig,
-}
+
+class ProductionConfig(Config):
+    """Configurations for Production."""
+
+    DEBUG = False
+    TESTING = False
+
+
+app_config = {'development': DevelopmentConfig, 'production': ProductionConfig}
