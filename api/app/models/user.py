@@ -2,7 +2,7 @@
 from flask_bcrypt import Bcrypt
 import datetime
 import uuid
-# import jwt
+import jwt
 
 # local imports
 from app import app

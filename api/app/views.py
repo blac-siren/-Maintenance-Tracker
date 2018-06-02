@@ -3,10 +3,36 @@ from flask_restplus import fields, Resource
 from app.models.request import CreateRequest
 from app.models.user import User
 from app import api
-from flask import request
+from flask import request, jsonify
 from flask_bcrypt import Bcrypt
+import re
+import json
 
 bcrypt = Bcrypt()
+
+# Namespaces
+auth_namespace = api.namespace(
+    'auth', description='Authentication Related Operation')
+
+registration_model = api.model(
+    'Registration', {
+        "username":
+        fields.String(
+            required=True, description='Username', example="Joe_doe"),
+        "email":
+        fields.String(
+            requires=True,
+            description='email account',
+            example="joe_doe@example.com"),
+        "password":
+        fields.String(
+            requires=True,
+            description="Your password account",
+            example="U#76pJrr")
+    })
+
+# User registration validation
+email_regex = re.compile(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)")
 
 
 @api.route('/register')
@@ -29,18 +55,30 @@ class Registration(Resource):
             password = data['password']
         except KeyError:
             return {'Message': 'Fill up all the fields!'}, 400
-
-        if email in User.user_info:
-            return {'message': 'Email already Exist'}
-        if len(password) <= 8:
-            return {'Message': "Password must be greater than 8"}
+        if len(email) > 5:
+            if not re.match(email_regex, email):
+                return {
+                    'message': '{} is not a valid email address'.format(email)
+                }, 400
         else:
-            user = User(username, email, password)
-            user.create_user()
             return {
-                'Account': user.create_user(),
-                'Message': 'Successfully Registered'
-            }, 201
+                'message': 'Email address must be 6 characters or more'
+            }, 411
+
+        if [
+                duplicate_email for duplicate_email in User.user_info
+                if duplicate_email['email'] == email
+        ]:
+            return {'message': 'Email already Exist'}, 406
+        else:
+            if len(password) <= 8:
+                return {'Message': "Password must be greater than 8"}, 411
+            else:
+                user = User(username, email, password)
+                return {
+                    'Account': user.create_user(),
+                    'Message': 'Successfully Registered'
+                }, 201
 
 
 @api.route('/login')
