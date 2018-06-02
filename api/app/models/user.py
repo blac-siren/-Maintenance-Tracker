@@ -2,12 +2,16 @@
 from flask_bcrypt import Bcrypt
 import datetime
 import uuid
+import jwt
+
+# local imports
+from app import app
 
 
 class User:
     """Store user info into dictionary."""
 
-    user_info = {}
+    user_info = []
 
     def __init__(self, username, email, password):
         self.public_id = str(uuid.uuid4())
@@ -19,19 +23,32 @@ class User:
     def create_user(self):
         """Save user info into dictionary."""
         user_detail = {
-            self.email: {
-                'username': self.username,
-                'id': self.public_id,
-                'password': self.password_hash
-            }
+            'id': len(User.user_info) + 1,
+            "email": self.email,
+            'username': self.username,
+            'user_id': self.public_id,
+            'password': self.password_hash
         }
 
-        User.user_info.update(user_detail)
+        User.user_info.append(user_detail)
         return user_detail
 
-    def password_is_valid(self, password):
-        """Validate password against its hash"""
-        return Bcrypt().check_password_hash(self.password_hash, password)
+    @staticmethod
+    def generate_token(user_id):
+        """Generates Auth Token."""
+        try:
+            payload = {
+                'exp':
+                datetime.datetime.utcnow() + datetime.timedelta(minutes=1),
+                'iat': datetime.datetime.utcnow(),
+                'sub': user_id
+            }
+            jwt_token = jwt.encode(
+                payload, app.config.get('SECRET'), algorithm='HS256')
+            return jwt_token
+        except Exception as e:
+            return str(e)
 
     def __repr__(self):
-        return '<Username> {}'.format(self.username)
+        """Representation of the class."""
+        return "<Username>>>> {}".format(self.username)
