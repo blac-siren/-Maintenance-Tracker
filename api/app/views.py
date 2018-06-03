@@ -12,10 +12,6 @@ import json
 
 bcrypt = Bcrypt()
 
-# Namespaces
-auth_namespace = api.namespace(
-    'auth', description='Authentication Related Operation')
-
 current_user = []
 
 
@@ -36,6 +32,13 @@ def login_required(f):
 
     return wrapper
 
+
+# Namespaces
+auth_namespace = api.namespace(
+    'auth', description='Authentication Related Operation')
+
+request_namespace = api.namespace(
+    'users', description='Request Related Operation')
 
 registration_model = api.model(
     'Registration', {
@@ -66,6 +69,23 @@ login_model = api.model(
             requires=True,
             description="Your password account",
             example="U#76pJr3r")
+    })
+
+Request_model = api.model(
+    'Request', {
+        "user_request":
+        fields.String(
+            requires=True, description='Request made', example="Plumbering"),
+        "category":
+        fields.String(
+            requires=True,
+            description="Is it maintenance or repair services",
+            example="Repaire"),
+        "location":
+        fields.String(
+            requires=True,
+            description="Location",
+            example="Westland st 12235 House: 345E")
     })
 
 # User registration validation
@@ -131,14 +151,14 @@ class login(Resource):
             email = data['email']
             password = data['password']
         except KeyError:
-            return {'Message': 'Invalid, all fields required!'}, 400
+            return {'Message': 'Invalid, all input data required!'}, 400
         else:
             if [
                     user for user in User.user_info if user['email'] == email
                     and bcrypt.check_password_hash(user['password'], password)
             ]:
                 global current_user
-                current_user.append(email)
+                current_user = [email]
                 return {
                     "current_user": current_user,
                     'Message': 'Successfully logged in'
@@ -147,7 +167,7 @@ class login(Resource):
                 return {"Message": "Incorrect Email or Password "}, 411
 
 
-@api.route('/users/requests')
+@request_namespace.route('/requests')
 class RequestList(Resource):
     """Handle users/requests routes."""
 
@@ -158,24 +178,29 @@ class RequestList(Resource):
             return {"Requests": CreateRequest.all_requests}, 200
 
     @login_required
+    @api.expect(Request_model)
     def post(self):
         """Handle [Endpoint] GET."""
         data = request.get_json()
         try:
-            req = data['req']
+            user_request = data['user_request']
             category = data['category']
             location = data['location']
         except KeyError:
-            return {'Message': "All data required"}
+            return {'Message': "All input data required"}, 400
         else:
-            create = CreateRequest(req, category, location)
+            create = CreateRequest(user_request, category, location)
             create.save_request()
-            return {"message": "successfully created"}, 201
+            return {"message": "Request Successfully created"}, 201
 
 
-@api.route('/users/requests/<int:id>')
+@request_namespace.route('/requests/<int:id>')
 class Request(Resource):
+    """Handle  users/requests routes."""
+
+    @api.expect(Request_model)
     def put(self, id):
+        """Handle [endpoint] PUT."""
         for req in CreateRequest.all_requests:
             if req == id:
                 request_data = CreateRequest.all_requests[id]
