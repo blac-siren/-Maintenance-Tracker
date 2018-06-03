@@ -2,8 +2,9 @@
 
 import unittest
 import json
-
-from app.__init__ import app
+from app.models.request import CreateRequest
+from app.models.user import User
+from app import app
 
 
 class RequestTestCase(unittest.TestCase):
@@ -12,86 +13,212 @@ class RequestTestCase(unittest.TestCase):
     def setUp(self):
         """sets up the data."""
         self.client = app.test_client
-        self.request = {"request": "Plumbering", "location": "Hurligham"}
+        self.request = {
+            "user_request": "Plumbering",
+            "location": "Hurligham",
+            "category": "Maintenance"
+        }
+        self.user_details = {
+            'email': 'joe@email.com',
+            'password': 'U#76pJr3r',
+            'username': 'Joe_test'
+        }
 
     def tearDown(self):
         """teardown all initialized data."""
-        self.request.clear()
+        del CreateRequest.all_requests[:]
+        del User.user_info[:]
 
     def test_make_request(self):
         """Test create request (POST request)"""
-        res = self.client().post('/api/v1/users/requests', data=self.request)
-        result = json.loads(res)
-        self.assertEqual(result['message'], 'Succesfully created')
+        self.client().post(
+            'api/v1/auth/register',
+            data=json.dumps(self.user_details),
+            content_type="application/json")
+
+        self.client().post(
+            'api/v1/auth/login',
+            data=json.dumps(self.user_details),
+            content_type="application/json")
+
+        res = self.client().post(
+            'api/v1/users/requests',
+            data=json.dumps(self.request),
+            content_type='application/json')
+
+        result = json.loads(res.data)
+        self.assertEqual(result['Message'], "Request Successfully created")
+        self.assertEqual(res.status_code, 201)
 
     def test_api_fetch_all_request(self):
         """Test API fetch all request (GET request)."""
-        res = self.client().post('/api/v1/users/requests', data=self.request)
-        self.assertEqual(res['message'], 'Succesfully created')
-        res = self.client().get('/api/v1/users/requests')
-        self.assertEqual(res.status_code, 200)
+
+        self.client().post(
+            'api/v1/auth/register',
+            data=json.dumps(self.user_details),
+            content_type="application/json")
+
+        self.client().post(
+            'api/v1/auth/login',
+            data=json.dumps(self.user_details),
+            content_type="application/json")
+
+        res = self.client().post(
+            '/api/v1/users/requests',
+            content_type="application/json",
+            data=json.dumps(self.request))
+        result = json.loads(res.data)
+        self.assertEqual(result['Message'], 'Request Successfully created')
+
+        res1 = self.client().get(
+            '/api/v1/users/requests', content_type="application/json")
+        self.assertEqual(res1.status_code, 200)
+
+    def test_api_when_no_request_found(self):
+        """Test Api when no request found."""
+        self.client().post(
+            'api/v1/auth/register',
+            data=json.dumps(self.user_details),
+            content_type="application/json")
+
+        self.client().post(
+            'api/v1/auth/login',
+            data=json.dumps(self.user_details),
+            content_type="application/json")
+
+        res1 = self.client().get(
+            '/api/v1/users/requests', content_type="application/json")
+        self.assertEqual(res1.status_code, 404)
 
     def test_api_can_get_request_by_id(self):
         """Test API can get a single request using id."""
-        res = self.client().post('/api/v1/users/requests', data=self.request)
+
+        self.client().post(
+            'api/v1/auth/register',
+            data=json.dumps(self.user_details),
+            content_type="application/json")
+
+        self.client().post(
+            'api/v1/auth/login',
+            data=json.dumps(self.user_details),
+            content_type="application/json")
+        res = self.client().post(
+            '/api/v1/users/requests',
+            content_type='application/json',
+            data=json.dumps(self.request))
         self.assertEqual(res.status_code, 201)
         result = self.client().get('/api/v1/users/requests/1')
         self.assertEqual(result.status_code, 200)
 
     def test_request_can_be_edited(self):
-        """Test API can edit an existing  request. (PUT request)."""
-        res = self.client().post('/api/v1/users/requests', data=self.request)
+        """Test API can edit an existing  request. (POST request)."""
+
+        self.client().post(
+            'api/v1/auth/register',
+            data=json.dumps(self.user_details),
+            content_type="application/json")
+
+        self.client().post(
+            'api/v1/auth/login',
+            data=json.dumps(self.user_details),
+            content_type="application/json")
+
+        res = self.client().post(
+            '/api/v1/users/requests',
+            data=json.dumps(self.request),
+            content_type='application/json')
         self.assertEqual(res.status_code, 201)
+
         edit_res = self.client().put(
-            'api/v1/requests/1',
-            data={
-                "request": "gardening",
-                "location": "Pangani"
-            })
+            'api/v1/users/requests/1',
+            data=json.dumps({
+                "user_request": "gardening",
+                "location": "Pangani",
+                "category": "maintenance"
+            }),
+            content_type='application/json')
         self.assertEqual(edit_res.status_code, 201)
-        results = self.client().get('/api/v1/requests/1')
-        self.assertIn('{"request":"gardening", "location": "Pangani"}',
-                      str(results.data))
+        reslt = json.loads(edit_res.data)
+        self.assertIn(reslt['Message'], 'successfully updated')
+
+    def test_updating_with_less_input_data(self):
+        """Test API when edit an existing  request and omit a input data. (POST request)."""
+
+        self.client().post(
+            'api/v1/auth/register',
+            data=json.dumps(self.user_details),
+            content_type="application/json")
+
+        self.client().post(
+            'api/v1/auth/login',
+            data=json.dumps(self.user_details),
+            content_type="application/json")
+
+        res = self.client().post(
+            '/api/v1/users/requests',
+            data=json.dumps(self.request),
+            content_type='application/json')
+        self.assertEqual(res.status_code, 201)
+
+        edit_res = self.client().put(
+            'api/v1/users/requests/1',
+            data=json.dumps({
+                "user_request": "gardening",
+                "category": "maintenance"
+            }),
+            content_type='application/json')
+        self.assertEqual(edit_res.status_code, 400)
+        reslt = json.loads(edit_res.data)
+        self.assertIn(reslt['Message'], 'All input data required!')
 
     def test_request_not_found_by_id(self):
         """Test Api response when no request. (GET request)."""
         res = self.client().get('/api/v1/users/requests/2t')
         self.assertEqual(res.status_code, 404)
 
-    def test_long_sentence_in_make_request(self):
-        """Test API long sentence."""
-        res = self.client().post('/api/v1/users/requests', data='fooo' * 100)
-        result = json.loads(res)
-        self.assertEqual(result['message'], "Too long")
-        self.assertEqual(res.status_code, 411)
-
     def test_edit_no_found_request(self):
         """Test API when edit not found request"""
+        self.client().post(
+            'api/v1/auth/register',
+            data=json.dumps(self.user_details),
+            content_type="application/json")
+
+        self.client().post(
+            'api/v1/auth/login',
+            data=json.dumps(self.user_details),
+            content_type="application/json")
+
         res = self.client().put(
-            'api/v1/requests/r3',
-            data={
-                'request': 'grading',
-                'location': 'pangami'
-            })
-        result = json.loads(res)
-        self.assertEqual(result["message"], "Request Not Found!")
+            'api/v1/users/requests/44',
+            data=json.dumps({
+                'user_request': 'grading',
+                'location': 'pangami',
+                "category": "maintenance"
+            }),
+            content_type='application/json')
         self.assertEqual(res.status_code, 404)
 
     def test_delete_request_by_id(self):
         """Test Api delete response."""
-        res = self.client().post('/api/v1/users/requests', data=self.request)
+        self.client().post(
+            'api/v1/auth/register',
+            data=json.dumps(self.user_details),
+            content_type="application/json")
+
+        self.client().post(
+            'api/v1/auth/login',
+            data=json.dumps(self.user_details),
+            content_type="application/json")
+
+        res = self.client().post(
+            '/api/v1/users/requests',
+            data=json.dumps(self.request),
+            content_type='application/json')
+
         self.assertEqual(res.status_code, 201)
-        del_res = self.client().delete('/api/v1/requests/1')
-        result = json.loads(res)
-        self.assertEqual(result['message'], "Successfully deleted")
+        del_res = self.client().delete('/api/v1/users/requests/1')
         self.assertEqual(del_res.status_code, 200)
 
     def test_delete_request_not_found(self):
-        res = self.client().delete('api/v1/users/3e')
-        result = json.loads(res)
-        self.assertEqual(result['message'], 'Not found!')
+        res = self.client().delete('api/v1/users/requests/3e')
         self.assertEqual(res.status_code, 404)
-
-
-if __name__ == "__main__":
-    unittest.main()
