@@ -6,13 +6,6 @@ from config import app_config
 app = Flask(__name__)
 app.config.from_object(app_config[os.getenv('APP_SETTINGS')])
 
-authorizations = {
-    'api_key': {
-        'type': 'apiKey',
-        'in': 'header',
-        'name': 'X-API-KEY'
-    }
-}
 
 api = Api(
     app,
