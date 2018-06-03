@@ -5,7 +5,7 @@ python:
   - 3.6
 
 install:
-  - pip3 install -r api/requirements.txt
+  - pip install -r api/requirements.txt
   - pip install coveralls
 
 script:
