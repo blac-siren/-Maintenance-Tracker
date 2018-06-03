@@ -33,22 +33,6 @@ class User:
         User.user_info.append(user_detail)
         return user_detail
 
-    @staticmethod
-    def generate_token(user_id):
-        """Generates Auth Token."""
-        try:
-            payload = {
-                'exp':
-                datetime.datetime.utcnow() + datetime.timedelta(minutes=1),
-                'iat': datetime.datetime.utcnow(),
-                'sub': user_id
-            }
-            jwt_token = jwt.encode(
-                payload, app.config.get('SECRET'), algorithm='HS256')
-            return jwt_token
-        except Exception as e:
-            return str(e)
-
     def __repr__(self):
         """Representation of the class."""
         return "<Username>>>> {}".format(self.username)

@@ -3,19 +3,39 @@ from flask_restplus import fields, Resource
 from app.models.request import CreateRequest
 from app.models.user import User
 from app import api
-from flask import request, jsonify
+from flask import request, jsonify, abort, make_response, g
 from flask_bcrypt import Bcrypt
+from functools import wraps
+
 import re
 import json
-
-# local imports
-from app.token import token_required
 
 bcrypt = Bcrypt()
 
 # Namespaces
 auth_namespace = api.namespace(
     'auth', description='Authentication Related Operation')
+
+current_user = []
+
+
+def login_required(f):
+    """Check if user is logged in."""
+
+    @wraps(f)
+    def wrapper(*args, **kwargs):
+        """Wrap the function."""
+
+        if len(current_user) == 0:
+            return make_response(
+                jsonify({
+                    'message': 'Unauthorized access. Please login!.'
+                }), 401)
+
+        return f(*args, **kwargs)
+
+    return wrapper
+
 
 registration_model = api.model(
     'Registration', {
@@ -117,9 +137,10 @@ class login(Resource):
                     user for user in User.user_info if user['email'] == email
                     and bcrypt.check_password_hash(user['password'], password)
             ]:
-                token_access = User.generate_token(email)
+                global current_user
+                current_user.append(email)
                 return {
-                    'Access token': token_access.decode(),
+                    "current_user": current_user,
                     'Message': 'Successfully logged in'
                 }, 200
             else:
@@ -130,10 +151,13 @@ class login(Resource):
 class RequestList(Resource):
     """Handle users/requests routes."""
 
+    @login_required
     def get(self):
         """Handle [Endpoint] GET."""
-        return {"Requests": CreateRequest.all_requests}, 200
+        if CreateRequest.all_requests:
+            return {"Requests": CreateRequest.all_requests}, 200
 
+    @login_required
     def post(self):
         """Handle [Endpoint] GET."""
         data = request.get_json()

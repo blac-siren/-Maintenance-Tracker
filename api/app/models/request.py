@@ -4,10 +4,9 @@
 class CreateRequest:
     """Class saves request."""
 
-    all_requests = {}
-    id = 1
+    all_requests = []
 
-    def __init__(self, req, category, location):
+    def __init__(self, request, category, location):
 
         self.req = req
         self.category = category
@@ -16,13 +15,12 @@ class CreateRequest:
     def save_request(self):
         """Save request in a dictionary."""
         requests = {
-            CreateRequest.id: {
-                'req': self.req,
+                'id': len(CreateRequest.all_requests) +1
+                'request': self.request,
                 'category': self.category,
                 'location': self.location
             }
         }
 
-        CreateRequest.all_requests.update(requests)
-        CreateRequest.id += 1
+        CreateRequest.all_requests.append(requests)
         return requests
