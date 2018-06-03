@@ -25,7 +25,7 @@ def login_required(f):
         if len(current_user) == 0:
             return make_response(
                 jsonify({
-                    'message': 'Unauthorized access. Please login!.'
+                    'Message': 'Unauthorized access. Please login!.'
                 }), 401)
 
         return f(*args, **kwargs)
@@ -116,18 +116,18 @@ class Registration(Resource):
         if len(email) > 5:
             if not re.match(email_regex, email):
                 return {
-                    'message': '{} is not a valid email address'.format(email)
+                    'Message': '{} is not a valid email address'.format(email)
                 }, 400
         else:
             return {
-                'message': 'Email address must be 6 characters or more'
+                'Message': 'Email address must be 6 characters or more'
             }, 411
 
         if [
                 duplicate_email for duplicate_email in User.user_info
                 if duplicate_email['email'] == email
         ]:
-            return {'message': 'Email already Exist'}, 406
+            return {'Message': 'Email already Exist'}, 406
         else:
             if len(password) <= 8:
                 return {'Message': "Password must be greater than 8"}, 411
@@ -164,7 +164,7 @@ class login(Resource):
                     'Message': 'Successfully logged in'
                 }, 200
             else:
-                return {"Message": "Incorrect Email or Password "}, 411
+                return {"Message": "Incorrect Email or Password"}, 411
 
 
 @request_namespace.route('/requests')
@@ -179,10 +179,10 @@ class RequestList(Resource):
         else:
             return {"Requests": CreateRequest.all_requests}, 200
 
-    @login_required
     @api.expect(Request_model)
+    @login_required
     def post(self):
-        """Handle [Endpoint] GET."""
+        """Handle [Endpoint] POST."""
         data = request.get_json()
         try:
             user_request = data['user_request']
@@ -193,7 +193,7 @@ class RequestList(Resource):
         else:
             create = CreateRequest(user_request, category, location)
             create.save_request()
-            return {"message": "Request Successfully created"}, 201
+            return {"Message": "Request Successfully created"}, 201
 
 
 @request_namespace.route('/requests/<int:requestId>')
@@ -222,8 +222,9 @@ class Request(Resource):
         except KeyError:
             return {'Message': "All input data required!"}, 400
         else:
-            return {"message": "successfully updated"}, 201
+            return {"Message": "successfully updated"}, 201
 
+    @login_required
     def get(self, requestId):
         """Get one request by ID."""
         one_request = [
@@ -235,6 +236,7 @@ class Request(Resource):
         else:
             return {'request': one_request}
 
+    @login_required
     def delete(self, requestId):
         """Delete a request."""
         delete_request = [
@@ -245,4 +247,6 @@ class Request(Resource):
             return {'Message': 'Not found'}, 404
         else:
             CreateRequest.all_requests.remove(delete_request[0])
-        return {"message": "Deleted {} successfully".format(delete_request[0])}
+        return {
+            "message": "Deleted {} successfully".format(delete_request[0])
+        }, 200
