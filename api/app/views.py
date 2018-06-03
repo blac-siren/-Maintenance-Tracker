@@ -3,7 +3,7 @@ from flask_restplus import fields, Resource
 from app.models.request import CreateRequest
 from app.models.user import User
 from app import api
-from flask import request, jsonify, abort, make_response, g
+from flask import request, jsonify, abort, make_response, abort
 from flask_bcrypt import Bcrypt
 from functools import wraps
 
@@ -174,7 +174,9 @@ class RequestList(Resource):
     @login_required
     def get(self):
         """Handle [Endpoint] GET."""
-        if CreateRequest.all_requests:
+        if len(CreateRequest.all_requests) == 0:
+            return {"Message": 'No requesst found'}, 404
+        else:
             return {"Requests": CreateRequest.all_requests}, 200
 
     @login_required
@@ -194,41 +196,53 @@ class RequestList(Resource):
             return {"message": "Request Successfully created"}, 201
 
 
-@request_namespace.route('/requests/<int:id>')
+@request_namespace.route('/requests/<int:requestId>')
 class Request(Resource):
     """Handle  users/requests routes."""
 
+    @login_required
     @api.expect(Request_model)
-    def put(self, id):
+    def put(self, requestId):
         """Handle [endpoint] PUT."""
-        for req in CreateRequest.all_requests:
-            if req == id:
-                request_data = CreateRequest.all_requests[id]
 
-        if len(request_data) == 0:
-            return {"Message": "Not found"}, 404
+        request_update = [
+            request_data for request_data in CreateRequest.all_requests
+            if request_data['id'] == requestId
+        ]
+        if len(request_update) == 0:
+            abort(404, "Not found!")
+
         data = request.get_json()
+
         try:
-            request_data['category'] = data['category']
-            request_data['req'] = data['req']
-            request_data['location'] = data['location']
+            request_update[0]['category'] = data['category']
+            request_update[0]['user_request'] = data['user_request']
+            request_update[0]['location'] = data['location']
 
         except KeyError:
-            return {'Message': "All data required"}
+            return {'Message': "All input data required!"}, 400
         else:
+            return {"message": "successfully updated"}, 201
 
-            return {"message": "successfully updated"}
-
-    def get(self, id):
+    def get(self, requestId):
         """Get one request by ID."""
-        for req in CreateRequest.all_requests:
-            if req == id:
-                request_data = CreateRequest.all_requests[id]
-        return {'request': request_data}
+        one_request = [
+            request_data for request_data in CreateRequest.all_requests
+            if request_data['id'] == requestId
+        ]
+        if len(one_request) == 0:
+            return {'Message': "Not found"}, 404
+        else:
+            return {'request': one_request}
 
-    def delete(self, id):
+    def delete(self, requestId):
         """Delete a request."""
-        for req in CreateRequest.all_requests:
-            if req == id:
-                request_data = CreateRequest.all_requests[id]
-        return {"message": "Deleted {} successfully".format(request_data)}
+        delete_request = [
+            request_data for request_data in CreateRequest.all_requests
+            if request_data['id'] == requestId
+        ]
+        if len(delete_request) == 0:
+            return {'Message': 'Not found'}, 404
+        else:
+            CreateRequest.all_requests.remove(delete_request[0])
+        return {"message": "Deleted {} successfully".format(delete_request[0])}
