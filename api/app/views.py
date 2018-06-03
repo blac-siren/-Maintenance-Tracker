@@ -21,7 +21,6 @@ def login_required(f):
     @wraps(f)
     def wrapper(*args, **kwargs):
         """Wrap the function."""
-
         if len(current_user) == 0:
             return make_response(
                 jsonify({
@@ -93,13 +92,6 @@ email_regex = re.compile(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)")
 
 
 @auth_namespace.route('/register')
-@api.doc(
-    {
-        201: 'user created successfully',
-        400: 'No Input data provided',
-        422: 'Invalid input data provided'
-    },
-    security=None)
 class Registration(Resource):
     """Handles registration Routes."""
 
@@ -164,7 +156,16 @@ class login(Resource):
                     'Message': 'Successfully logged in'
                 }, 200
             else:
-                return {"Message": "Incorrect Email or Password"}, 411
+                return {"Message": "Incorrect Email or Password"}, 400
+
+
+@auth_namespace.route('/logout')
+class Logout(Resource):
+    """Handle logout route."""
+
+    def get(self):
+        del current_user[:]
+        return {"Message": "Successfully logged-out"}, 200
 
 
 @request_namespace.route('/requests')
@@ -200,11 +201,10 @@ class RequestList(Resource):
 class Request(Resource):
     """Handle  users/requests routes."""
 
-    @login_required
     @api.expect(Request_model)
+    @login_required
     def put(self, requestId):
         """Handle [endpoint] PUT."""
-
         request_update = [
             request_data for request_data in CreateRequest.all_requests
             if request_data['id'] == requestId
