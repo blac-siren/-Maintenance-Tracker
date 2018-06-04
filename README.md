@@ -2,7 +2,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/blac-siren/Maintenance-Tracker/badge.svg?branch=deployment)](https://coveralls.io/github/blac-siren/Maintenance-Tracker?branch=deployment)
 
 # Maintenance-Tracker
-
+Maintenance Tracker App is an application that provides users with the ability to reach out to operations or repairs department regarding repair or maintenance requests and monitor the status of their request
 
 ## Prerequisites
 
@@ -20,7 +20,7 @@ Rename .env.sample into .env
 Activate virtual environment:
 
 ```
-$ source .venv/bin/activate
+$ source venv/bin/activate
 ```
 
 ## Testing
@@ -42,14 +42,14 @@ $ nosetests
 
 ### Api endpoints
 
-| url | Method|  Description 
+| URL | Method|  Description 
 | --- | --- | --- 
-| /api-v1/register | POST | Registers new user 
-| /api-v1/login | POST | Handles POST request for /login
+| /api-v1/auth/register | POST | Registers new user 
+| /api-v1/auth/login | POST | Handles POST request for login
 | /api-v1/users/requests | GET | Get every requests of logged in user
-| /api-v1/users/requests/{id} | GET | Gets one of request 
+| /api-v1/users/requests/{id} | GET | Gets a request 
 | /api-v1/users/requests | POST | Create a new request
 | /api-v1/users/requests/{requestId}  | PUT | Update an existing request
-| /api-v1/users/requests/{requestId} | DELETE | Delete request by id
+| /api-v1/users/requests/{requestId} | DELETE | Delete request by
 
 
