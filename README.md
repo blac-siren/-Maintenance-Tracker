@@ -14,7 +14,7 @@ Install all package requirements in your python virtual environment.
 pip install -r requirements.txt
 ```
 ## Env
-Rename .env.sample into .env
+Create.env file 
 
 ## Virtual environment
 Activate virtual environment:
