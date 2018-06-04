@@ -8,10 +8,10 @@ from app import app
 
 
 class RequestTestCase(unittest.TestCase):
-    """This class represents the request test case"""
+    """This class represents the request test case."""
 
     def setUp(self):
-        """sets up the data."""
+        """Set up the data."""
         self.client = app.test_client
         self.request = {
             "user_request": "Plumbering",
@@ -25,12 +25,12 @@ class RequestTestCase(unittest.TestCase):
         }
 
     def tearDown(self):
-        """teardown all initialized data."""
+        """Teardown all initialized data."""
         del CreateRequest.all_requests[:]
         del User.user_info[:]
 
     def test_make_request(self):
-        """Test create request (POST request)"""
+        """Test create request (POST request)."""
         self.client().post(
             'api/v1/auth/register',
             data=json.dumps(self.user_details),
@@ -52,7 +52,6 @@ class RequestTestCase(unittest.TestCase):
 
     def test_api_fetch_all_request(self):
         """Test API fetch all request (GET request)."""
-
         self.client().post(
             'api/v1/auth/register',
             data=json.dumps(self.user_details),
@@ -91,8 +90,7 @@ class RequestTestCase(unittest.TestCase):
         self.assertEqual(res1.status_code, 404)
 
     def test_api_can_get_request_by_id(self):
-        """Test API can get a single request using id."""
-
+        """Test API get a single request using id."""
         self.client().post(
             'api/v1/auth/register',
             data=json.dumps(self.user_details),
@@ -112,7 +110,6 @@ class RequestTestCase(unittest.TestCase):
 
     def test_request_can_be_edited(self):
         """Test API can edit an existing  request. (POST request)."""
-
         self.client().post(
             'api/v1/auth/register',
             data=json.dumps(self.user_details),
@@ -143,7 +140,6 @@ class RequestTestCase(unittest.TestCase):
 
     def test_updating_with_less_input_data(self):
         """Test API when edit an existing  request and omit a input data. (POST request)."""
-
         self.client().post(
             'api/v1/auth/register',
             data=json.dumps(self.user_details),
@@ -177,7 +173,7 @@ class RequestTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 404)
 
     def test_edit_no_found_request(self):
-        """Test API when edit not found request"""
+        """Test API when edit not found request."""
         self.client().post(
             'api/v1/auth/register',
             data=json.dumps(self.user_details),
@@ -220,5 +216,6 @@ class RequestTestCase(unittest.TestCase):
         self.assertEqual(del_res.status_code, 200)
 
     def test_delete_request_not_found(self):
+        """Test api use of invalid id to delete request."""
         res = self.client().delete('api/v1/users/requests/3e')
         self.assertEqual(res.status_code, 404)

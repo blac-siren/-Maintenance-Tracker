@@ -164,6 +164,7 @@ class Logout(Resource):
     """Handle logout route."""
 
     def get(self):
+        """Handle logout api endpoint."""
         del current_user[:]
         return {"Message": "Successfully logged-out"}, 200
 

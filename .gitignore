@@ -142,7 +142,7 @@ ENV/
 .mypy_cache/
 
 
-.noseids
+.noseids*
 /.idea
 .vscode/
 .pytest_cache/
