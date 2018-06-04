@@ -51,7 +51,7 @@ registration_model = api.model(
             example="joe_doe@example.com"),
         "password":
         fields.String(
-            requires=True,
+            required=True,
             description="Your password account",
             example="U#76pJr3r")
     })
