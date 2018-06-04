@@ -1,4 +1,4 @@
-"""Module for storing data in dictionary."""
+"""Module for user."""
 from flask_bcrypt import Bcrypt
 import datetime
 import uuid
