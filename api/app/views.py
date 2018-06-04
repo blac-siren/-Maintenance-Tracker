@@ -46,7 +46,7 @@ registration_model = api.model(
             required=True, description='Username', example="Joe_doe"),
         "email":
         fields.String(
-            requires=True,
+            required=True,
             description='email account',
             example="joe_doe@example.com"),
         "password":
@@ -60,12 +60,12 @@ login_model = api.model(
     'Login', {
         "email":
         fields.String(
-            requires=True,
+            required=True,
             description='email account',
             example="joe_doe@example.com"),
         "password":
         fields.String(
-            requires=True,
+            required=True,
             description="Your password account",
             example="U#76pJr3r")
     })
@@ -74,15 +74,15 @@ Request_model = api.model(
     'Request', {
         "user_request":
         fields.String(
-            requires=True, description='Request made', example="Plumbering"),
+            required=True, description='Request made', example="Plumbering"),
         "category":
         fields.String(
-            requires=True,
+            required=True,
             description="Is it maintenance or repair services",
-            example="Repaire"),
+            example="Repair"),
         "location":
         fields.String(
-            requires=True,
+            required=True,
             description="Location",
             example="Westland st 12235 House: 345E")
     })
