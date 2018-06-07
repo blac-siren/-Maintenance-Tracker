@@ -96,7 +96,11 @@ class Login(Resource):
                     if existing_emails['email'] == email and Bcrypt()
                     .check_password_hash(password_hash['password'], password)
             ]:
+                access_token = User.generate_token(email)
 
-                return {'Message': 'Successfully logged in!'}
+                return {
+                    'Access token': access_token,
+                    'Message': 'Successfully logged in!'
+                }
             else:
                 return {'Message': 'Incorrect email or password'}, 200

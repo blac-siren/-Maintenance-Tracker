@@ -76,5 +76,4 @@ def db_password_hash(email):
     cur = conn.cursor(cursor_factory=RealDictCursor)
     cur.execute("""SELECT password FROM users WHERE email =%s""", (email, ))
     password_hash = cur.fetchone()
-    print(password_hash)
     return password_hash
