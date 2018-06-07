@@ -17,6 +17,7 @@ class User:
             'UTF-8')
 
     def save_user(self):
+        """Save user in database."""
         manage.insert_user(self.username, self.email, self.password_hash)
 
     def __repr__(self):

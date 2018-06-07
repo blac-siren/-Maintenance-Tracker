@@ -4,7 +4,6 @@ from flask import request
 from flask_bcrypt import Bcrypt
 from psycopg2.extras import RealDictCursor
 import json
-
 import re
 
 # local imports
@@ -52,27 +51,12 @@ class Registration(Resource):
             password = data['password']
         except KeyError:
             return {'Message': 'All input data required!'}, 400
-        if len(email) > 5:
-            if not re.match(email_regex, email):
-                return {
-                    'Message': '{} is not a valid email address'.format(email)
-                }, 400
-        else:
+        if len(email) > 5 and not re.match(email_regex, email):
             return {
-                'Message': 'Email address must be 6 characters or more'
-            }, 411
-        conn = manage.connectTODB()
-        cur = conn.cursor(cursor_factory=RealDictCursor)
-        cur.execute("""SELECT email FROM users""")
-        print(json.dumps(cur.fetchall(), indent=2))
-        # return json.dumps(cur.fetchall(), indent=2)
+                'Message': '{} is not a valid email address'.format(email)
+            }, 400
 
-        emails = json.dumps(cur.fetchall(), indent=2)
-        conn.close()
-
-        print(type(emails))
-        print(emails)
-        print('sssssssssssssssssss')
+        emails = manage.all_email()
         if [email_db for email_db in emails if email_db['email'] == email]:
             return {'Message': 'Email already'}, 406
 
@@ -83,3 +67,36 @@ class Registration(Resource):
             user.save_user()
 
             return {'Message': 'Successfully Registered'}, 201
+
+
+@auth_namespace.route('/login')
+@auth_namespace.doc(
+    responses={
+        200: 'Successfully login',
+        400: 'Invalid input data provided',
+        401: 'Unauthorized, Invalid credential'
+    },
+    security=None,
+    body=login_model)
+class Login(Resource):
+    """login a registered user."""
+
+    def post(self):
+        """Handle POST request."""
+        data = request.get_json()
+        try:
+            email = data['email']
+            password = data['password']
+            password_hash = manage.db_password_hash(email)
+        except KeyError:
+            return {'Message': 'Invalid credentials'}, 401
+        else:
+            if [
+                    existing_emails for existing_emails in manage.all_email()
+                    if existing_emails['email'] == email and Bcrypt()
+                    .check_password_hash(password_hash['password'], password)
+            ]:
+
+                return {'Message': 'Successfully logged in!'}
+            else:
+                return {'Message': 'Incorrect email or password'}, 200

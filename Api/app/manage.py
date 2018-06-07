@@ -1,3 +1,4 @@
+"""Module for Database."""
 import psycopg2
 from psycopg2.extras import RealDictCursor
 import json
@@ -23,10 +24,11 @@ def create_tables():
     """, """CREATE TABLE requests(id SERIAL PRIMARY KEY,
     user_request TEXT,
     category VARCHAR(50),
-    location VARCHAR(100))""")
-    conn = None
+    location VARCHAR(100)),
+    author INTEGER NOT NULL,
+    FOREIGN KEY (author) REFERENCES users (id)""")
+    # connect to PostgreSQL server
     try:
-        # connect to PostgreSQL server
         conn = connectTODB()
         cur = conn.cursor()
         # create table one by one
@@ -59,18 +61,20 @@ def insert_user(username, email, password):
         print(error)
 
 
-def fetchall_users():
-    """Fetch all users."""
+def all_email():
+    """Check all email."""
     conn = connectTODB()
     cur = conn.cursor(cursor_factory=RealDictCursor)
-    cur.execute("""SELECT * FROM users""")
-    return json.dumps(cur.fetchall(), indent=2)
+    cur.execute("""SELECT email FROM users""")
+    existing_emails = cur.fetchall()
+    return existing_emails
 
 
-# def all_email():
-#     """Check all email."""
-#     conn = connectTODB()
-#     cur = conn.cursor(cursor_factory=RealDictCursor)
-#     cur.execute("""SELECT email FROM users""")
-#     print(json.dumps(cur.fetchall(), indent=2))
-#     return json.dumps(cur.fetchall(), indent=2)
+def db_password_hash(email):
+    """Look for password hash in db."""
+    conn = connectTODB()
+    cur = conn.cursor(cursor_factory=RealDictCursor)
+    cur.execute("""SELECT password FROM users WHERE email =%s""", (email, ))
+    password_hash = cur.fetchone()
+    print(password_hash)
+    return password_hash
