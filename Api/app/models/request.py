@@ -6,7 +6,7 @@ class CreateRequest:
 
     all_requests = []
 
-    def __init__(self, user_request, category, location):
+    def __init__(self, user_request, category, location, status='pending'):
 
         self.user_request = user_request
         self.category = category
