@@ -152,7 +152,7 @@ class UserApiTestCase(unittest.TestCase):
         login_res = self.client().post(
             'api/v1/auth/login',
             content_type='application/json',
-            data=json.dumps(none_exist))
+            data=json.dumps(none_exist)
         result = json.loads(login_res.data)
         self.assertEqual(result['Message'], "Incorrect Email or Password")
         self.assertEqual(login_res.status_code, 400)
