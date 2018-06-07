@@ -20,6 +20,23 @@ class User:
         """Save user in database."""
         manage.insert_user(self.username, self.email, self.password_hash)
 
+    @staticmethod
+    def generate_token(user_id):
+        """Generate Auth Token."""
+        try:
+            payload = {
+                'exp':
+                datetime.datetime.utcnow() + datetime.timedelta(minutes=30),
+                'iat':
+                datetime.datetime.utcnow(),
+                'sub':
+                user_id
+            }
+            jwt_token = jwt.encode(payload, 'X3HR4&asrplb', algorithm='HS256')
+            return jwt_token
+        except Exception as e:
+            return e
+
     def __repr__(self):
         """Representation of the class."""
         return "<Username>>>> {}".format(self.username)
