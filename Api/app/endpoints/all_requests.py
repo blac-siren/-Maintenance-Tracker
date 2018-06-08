@@ -31,17 +31,19 @@ request_model = request_namespace.model(
 
 
 @request_namespace.route('/requests')
+@request_namespace.doc(
+    responses={
+        200: 'Requests found successfully',
+        404: 'Requests not found',
+        422: 'Invalid parameters provided'
+    },
+    security='apikey')
 class AllReaquests(Resource):
-    @request_namespace.doc(
-        responses={
-            200: 'Requests found successfully',
-            404: 'Requests not found',
-            422: 'Invalid parameters provided'
-        },
-        security='apikey')
     @token_required
     def get(self, current_user):
         user_req = manage.all_request_of_user(current_user)
+        if len(user_req) == 0:
+            return {"Message": "No request found!"}, 404
         return user_req
 
     @token_required
@@ -59,12 +61,34 @@ class AllReaquests(Resource):
             user_request = data['user_request']
             category = data['category']
             location = data['location']
-            create = CreateRequest(
-                user_request, category, location, created_by=user_id)
+            create = CreateRequest(user_request, category, location, user_id)
             create.save_request()
-            import pdb
-            pdb.set_trace()
             return {"Message": "Request Successfully created"}, 201
 
         except KeyError:
             return {'Message': "All input data required"}, 400
+
+
+@request_namespace.route('/requests/<int:requestId>')
+class UpdateRequest(Resource):
+    """Handle [Endpoint] PUT."""
+
+    @request_namespace.expect(request_model)
+    @token_required
+    @request_namespace.doc(
+        responses={
+            201: 'Request successfully updated!',
+            400: 'Invalid parameters provided'
+        },
+        security='apikey')
+    def put(self, requestId):
+        edit_req = manage.select_request(requestId)
+        data = request.get_json()
+        try:
+            edit_req[0]['user_request'] = data['user_request']
+            edit_req[0]['category'] = data['category']
+            edit_req[0]['location'] = data['location']
+        except KeyError:
+            return {'Message': 'All input data required!'}, 400
+        else:
+            return {'Message': 'successfully updated'}, 201
