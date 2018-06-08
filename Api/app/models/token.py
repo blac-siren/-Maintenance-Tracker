@@ -20,8 +20,9 @@ def token_required(f):
             return {'Message': "Unauthorized, access token required!"}, 401
         try:
             # try to decode using token and secret key
-            payload = jwt.decode(token, 'X3HR4&asrplb')
+            payload = jwt.decode(token, "X3HR4&asrplb")
             user_id = payload['sub']
+            print("dddddddddddddddddddddddd", user_id)
         except jwt.ExpiredSignature:
             return {'Message': 'Expired token. Please log in.'}
         except jwt.InvalidTokenError:

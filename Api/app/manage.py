@@ -24,10 +24,12 @@ def create_tables():
     """, """CREATE TABLE requests(id SERIAL PRIMARY KEY,
     user_request TEXT,
     category VARCHAR(50),
-    location VARCHAR(100)),
-    author INTEGER NOT NULL,
-    FOREIGN KEY (author) REFERENCES users (id)""")
+    location VARCHAR(100),
+    status VARCHAR(100) NOT NULL,
+    Created_by VARCHAR(100) NOT NULL,
+    FOREIGN KEY (Created_by) REFERENCES users (email))""")
     # connect to PostgreSQL server
+    conn = None
     try:
         conn = connectTODB()
         cur = conn.cursor()
@@ -35,9 +37,9 @@ def create_tables():
         for command in commands:
             cur.execute(command)
             # close communication with postgreSQL database server.
-            cur.close()
-            # commit changes
-            conn.commit()
+        cur.close()
+        # commit changes
+        conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
     finally:
@@ -55,7 +57,7 @@ def insert_user(username, email, password):
             (username, email, password))
         conn.commit()
         cur.execute("""SELECT * FROM users""")
-        print(json.dumps(cur.fetchall(), indent=2))
+        # print(json.dumps(cur.fetchall(), indent=2))
         conn.close()
     except (Exception, psycopg2.IntegrityError) as error:
         print(error)
@@ -77,3 +79,26 @@ def db_password_hash(email):
     cur.execute("""SELECT password FROM users WHERE email =%s""", (email, ))
     password_hash = cur.fetchone()
     return password_hash
+
+
+def all_request_of_user(email):
+    """All request made by a certain user."""
+    conn = connectTODB()
+    cur = conn.cursor(cursor_factory=RealDictCursor)
+    cur.execute("""SELECT * FROM request WHERE email = %s""", (email, ))
+    existing_requests = cur.fetchall()
+    return existing_requests
+
+
+def insert_request(user_request, category, location, status, created_by):
+    """Insert user details into dictionary."""
+    # try:
+    conn = connectTODB()
+    cur = conn.cursor()
+    cur.execute(
+        "INSERT INTO requests(user_request, category, location, status, created_by) VALUES(%s,%s,%s,%s,%s)",
+        (user_request, category, location, status, created_by))
+    conn.commit()
+    conn.close()
+    # except (Exception, psycopg2.IntegrityError) as error:
+    # print(error)

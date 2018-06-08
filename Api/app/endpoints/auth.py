@@ -99,7 +99,7 @@ class Login(Resource):
                 access_token = User.generate_token(email)
 
                 return {
-                    'Access token': access_token,
+                    'Access token': access_token.decode(),
                     'Message': 'Successfully logged in!'
                 }
             else:

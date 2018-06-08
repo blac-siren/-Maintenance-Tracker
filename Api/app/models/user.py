@@ -32,7 +32,7 @@ class User:
                 'sub':
                 user_id
             }
-            jwt_token = jwt.encode(payload, 'X3HR4&asrplb', algorithm='HS256')
+            jwt_token = jwt.encode(payload, "X3HR4&asrplb", algorithm='HS256')
             return jwt_token
         except Exception as e:
             return e
