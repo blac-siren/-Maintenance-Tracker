@@ -8,7 +8,7 @@ def token_required(f):
     """Decorate to check if valid token present in request header."""
 
     @wraps(f)
-    def wrapper(*args, **kwargs):
+    def wrapper(self, *args, **kwargs):
         """Wrap function."""
         token = None
 
@@ -22,12 +22,11 @@ def token_required(f):
             # try to decode using token and secret key
             payload = jwt.decode(token, "X3HR4&asrplb")
             user_id = payload['sub']
-            print("dddddddddddddddddddddddd", user_id)
         except jwt.ExpiredSignature:
             return {'Message': 'Expired token. Please log in.'}
         except jwt.InvalidTokenError:
             return {'Message': 'Invalid token. Please register or log in'}
 
-        return f(user_id, *args, **kwargs)
+        return f(self, user_id, *args, **kwargs)
 
     return wrapper
