@@ -85,20 +85,30 @@ def all_request_of_user(email):
     """All request made by a certain user."""
     conn = connectTODB()
     cur = conn.cursor(cursor_factory=RealDictCursor)
-    cur.execute("""SELECT * FROM request WHERE email = %s""", (email, ))
+    cur.execute("""SELECT * FROM requests WHERE created_by = %s""", (email, ))
     existing_requests = cur.fetchall()
     return existing_requests
 
 
 def insert_request(user_request, category, location, status, created_by):
     """Insert user details into dictionary."""
-    # try:
+    try:
+        conn = connectTODB()
+        cur = conn.cursor()
+        cur.execute(
+            "INSERT INTO requests(user_request, category, location, status, created_by) VALUES(%s,%s,%s,%s,%s)",
+            (user_request, category, location, status, created_by))
+        conn.commit()
+        conn.close()
+    except (Exception, psycopg2.IntegrityError) as error:
+        print(error)
+
+
+def select_request(requestId):
+    """Get a request by id."""
     conn = connectTODB()
-    cur = conn.cursor()
-    cur.execute(
-        "INSERT INTO requests(user_request, category, location, status, created_by) VALUES(%s,%s,%s,%s,%s)",
-        (user_request, category, location, status, created_by))
-    conn.commit()
-    conn.close()
-    # except (Exception, psycopg2.IntegrityError) as error:
-    # print(error)
+    cur = conn.cursor(cursor_factory=RealDictCursor)
+    cur.execute("""SELECT * FROM requests WHERE id = %s""", (requestId, ))
+    edit_req = cur.fetchall()
+    print(edit_req)
+    return edit_req
