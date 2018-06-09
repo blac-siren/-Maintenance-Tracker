@@ -1,4 +1,4 @@
-"""Configuration."""
+"""App configuration."""
 import os
 
 
@@ -12,7 +12,6 @@ class Config:
 class DevelopmentConfig(Config):
     """configuration for development."""
 
-    # DEBUG = True
     DEBUG = True
     TESTING = False
 
