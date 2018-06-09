@@ -1,20 +1,20 @@
-language:
- - python
+# language:
+#  - python
 
-python:
-  - 3.6
+# python:
+#   - 3.6
 
-install:
-  - pip install -r requirements.txt
-  - pip install coveralls
+# install:
+#   - pip install -r requirements.txt
+#   - pip install coveralls
 
-script:
-  - cd Api
-  - nosetests --with-coverage --cover-package=app
-  - coveralls
+# script:
+#   - cd Api
+#   - nosetests --with-coverage --cover-package=app
+#   - coveralls
 
-after_success:
-  - coveralls
+# after_success:
+#   - coveralls
 
-after_success:
-  - coveralls
+# after_success:
+#   - coveralls

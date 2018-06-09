@@ -35,4 +35,18 @@ def create_tables():
         print(e)
 
 
-create_tables()
+# create_tables()
+
+
+def default_admin():
+    """Create a default Admin for the database."""
+    try:
+        db.query(
+            "INSERT INTO users(username, email, password, admin) VALUES('Andela', 'andela@example.com', 'cohort28', True)",
+        )
+        db.conn.commit()
+    except (Exception, psycopg2.IntegrityError) as error:
+        print(error)
+
+
+# default_admin()
