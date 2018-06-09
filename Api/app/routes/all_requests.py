@@ -8,7 +8,7 @@ from app.models.request import CreateRequest
 from app.models.token import token_required
 
 request_namespace = Namespace(
-    'requests', description='Request Related Operation.')
+    'user requests', description='Request Related Operation.')
 
 request_model = request_namespace.model(
     'request_model', {
@@ -37,7 +37,7 @@ request_model = request_namespace.model(
         404: 'Requests not found',
     },
     security='apikey')
-class AllReaquests(Resource):
+class UserReaquests(Resource):
     """Handle [endpoint] GET."""
 
     @token_required
