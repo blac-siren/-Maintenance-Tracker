@@ -18,7 +18,7 @@ def create_tables():
         username VARCHAR(100) NOT NULL,
         email VARCHAR(100) UNIQUE NOT NULL,
         password VARCHAR(100) NOT NULL,
-        admin VARCHAR(50) NOT NULL)""")
+        admin BOOLEAN NOT NULL)""")
 
         db.query("""
         CREATE TABLE requests(id SERIAL PRIMARY KEY,
@@ -33,20 +33,3 @@ def create_tables():
         db.conn.close()
     except (Exception, psycopg2.DatabaseError) as e:
         print(e)
-
-
-# create_tables()
-
-
-def default_admin():
-    """Create a default Admin for the database."""
-    try:
-        db.query(
-            "INSERT INTO users(username, email, password, admin) VALUES('Andela', 'andela@example.com', 'cohort28', True)",
-        )
-        db.conn.commit()
-    except (Exception, psycopg2.IntegrityError) as error:
-        print(error)
-
-
-# default_admin()
