@@ -4,21 +4,23 @@ import datetime
 import jwt
 
 # local imports
-from app import manage
+from app.DB import manage
 
 
 class User:
     """Store user info into dictionary."""
 
-    def __init__(self, username, email, password):
+    def __init__(self, username, email, password, admin=False):
         self.username = username
         self.email = email
         self.password_hash = Bcrypt().generate_password_hash(password).decode(
             'UTF-8')
+        self.admin = admin
 
     def save_user(self):
         """Save user in database."""
-        manage.insert_user(self.username, self.email, self.password_hash)
+        manage.insert_user(self.username, self.email, self.password_hash,
+                           self.admin)
 
     @staticmethod
     def generate_token(user_id):
@@ -32,7 +34,7 @@ class User:
                 'sub':
                 user_id
             }
-            jwt_token = jwt.encode(payload, 'X3HR4&asrplb', algorithm='HS256')
+            jwt_token = jwt.encode(payload, "X3HR4&asrplb", algorithm='HS256')
             return jwt_token
         except Exception as e:
             return e

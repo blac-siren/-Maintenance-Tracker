@@ -8,7 +8,7 @@ import re
 
 # local imports
 from app.models.user import User
-from app import manage
+from app.DB import manage
 
 auth_namespace = Namespace(
     'auth', description='Authentication Related Operation.')
@@ -56,7 +56,7 @@ class Registration(Resource):
                 'Message': '{} is not a valid email address'.format(email)
             }, 400
 
-        emails = manage.all_email()
+        emails = manage.get_all_emails()
         if [email_db for email_db in emails if email_db['email'] == email]:
             return {'Message': 'Email already'}, 406
 
@@ -87,20 +87,21 @@ class Login(Resource):
         try:
             email = data['email']
             password = data['password']
-            password_hash = manage.db_password_hash(email)
+            password_hash = manage.get_password_hash(email)
         except KeyError:
-            return {'Message': 'Invalid credentials'}, 401
+            return {'Message': 'Unauthorized, Invalid credentials!'}, 400
         else:
             if [
-                    existing_emails for existing_emails in manage.all_email()
+                    existing_emails
+                    for existing_emails in manage.get_all_emails()
                     if existing_emails['email'] == email and Bcrypt()
                     .check_password_hash(password_hash['password'], password)
             ]:
                 access_token = User.generate_token(email)
 
                 return {
-                    'Access token': access_token,
+                    'Access token': access_token.decode(),
                     'Message': 'Successfully logged in!'
-                }
+                }, 200
             else:
-                return {'Message': 'Incorrect email or password'}, 200
+                return {'Message': 'Incorrect email or password'}, 401

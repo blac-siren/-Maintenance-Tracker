@@ -2,7 +2,8 @@
 
 from flask import Blueprint
 from flask_restplus import Api
-from app.endpoints.auth import auth_namespace as auth
+from app.routes.auth import auth_namespace as auth
+from app.routes.all_requests import request_namespace as request
 
 authorization = {
     'apikey': {
@@ -22,3 +23,4 @@ api = Api(
     prefix='/api/v1')
 
 api.add_namespace(auth, path='/auth')
+api.add_namespace(request, path='/users')
