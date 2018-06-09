@@ -1,5 +1,5 @@
 """Module for request."""
-from app import manage
+from app.DB import manage
 
 
 class CreateRequest:
