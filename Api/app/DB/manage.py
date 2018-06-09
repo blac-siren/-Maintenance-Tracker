@@ -73,3 +73,32 @@ def delete_request(requestId):
     """Delete request by id."""
     db.cur.execute("""DELETE FROM requests WHERE id=%s""", (requestId, ))
     db.conn.commit()
+
+
+def all_requests_admin():
+    """Get all request for all users."""
+    db.query("""SELECT * FROM requests""")
+    all_req = db.cur.fetchall()
+    return all_req
+
+
+def update_status(status, requestId):
+    """Admin approve/disapprove or reject request."""
+    db.cur.execute("""UPDATE requests SET status=%s WHERE id=%s""",
+                   (status, requestId))
+    db.conn.commit()
+
+
+def search_admin():
+    """Search user admin in database."""
+    db.cur.execute("""SELECT * FROM users WHERE admin=True""")
+    all_admin = db.cur.fetchall()
+    return all_admin
+
+
+def confirm_admin(email):
+    """Check if user is admin."""
+    db.cur.execute("""SELECT * FROM users WHERE admin=True and email=%s""",
+                   (email, ))
+    variable = db.cur.fetchall()
+    return variable
