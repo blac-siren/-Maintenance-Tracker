@@ -1,9 +1,8 @@
-"""Main module."""
-
 from flask import Blueprint
 from flask_restplus import Api
 from app.routes.auth import auth_namespace as auth
 from app.routes.all_requests import request_namespace as request
+from app.routes.admin import ns as admin
 
 authorization = {
     'apikey': {
@@ -24,3 +23,4 @@ api = Api(
 
 api.add_namespace(auth, path='/auth')
 api.add_namespace(request, path='/users')
+api.add_namespace(admin, path='/requests')
