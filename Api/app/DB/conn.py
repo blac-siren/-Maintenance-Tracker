@@ -1,16 +1,16 @@
 """Module for connection to database."""
 import psycopg2
+from app.configuration.config import app_config
 from psycopg2.extras import RealDictCursor
-
-conn_string = "dbname=trackerapp user=sirenblack password=cohort28 host=localhost"
-
 
 class TrackerDB:
     """Class for database."""
 
-    def __init__(self):
+    def init_app(self, config_name):
         """Database Constructor Method."""
-        self.conn = psycopg2.connect(conn_string)
+        config_object = app_config[config_name]
+        self.db = config_object.DATABASE_URI
+        self.conn = psycopg2.connect(self.db)
         self.cur = self.conn.cursor(cursor_factory=RealDictCursor)
 
     def query(self, query):

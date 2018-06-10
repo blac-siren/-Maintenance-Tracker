@@ -1,9 +1,8 @@
 """Module handle functionality of database."""
-from app.DB.conn import TrackerDB
+from app.api import db
 import psycopg2
 
 # instantiate class object
-db = TrackerDB()
 
 
 def insert_user(username, email, password, admin):
