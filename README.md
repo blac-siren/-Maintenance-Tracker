@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/blac-siren/Maintenance-Tracker.svg?branch=develop)](https://travis-ci.org/blac-siren/Maintenance-Tracker)
-[![Coverage Status](https://coveralls.io/repos/github/blac-siren/Maintenance-Tracker/badge.svg?branch=develop)](https://coveralls.io/github/blac-siren/Maintenance-Tracker?branch=deployment)
+[![Coverage Status](https://coveralls.io/repos/github/blac-siren/Maintenance-Tracker/badge.svg?branch=develop&service=github)](https://coveralls.io/github/blac-siren/Maintenance-Tracker?branch=deployment)
 
 # Maintenance-Tracker
 Maintenance Tracker App is an application that provides users with the ability to reach out to operations or repairs department regarding repair or maintenance requests and monitor the status of their request
