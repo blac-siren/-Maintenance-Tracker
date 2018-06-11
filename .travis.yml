@@ -8,6 +8,10 @@ install:
   - pip install -r requirements.txt
   - pip install coveralls
 
+before_script:
+  - psql -c 'create database travis_ci_test;' -U postgres
+   -python3 Api/run_migration.py
+
 script:
   - cd Api
   - nosetests --with-coverage --cover-package=app
