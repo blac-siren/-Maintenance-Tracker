@@ -12,8 +12,8 @@ def token_required(f):
         """Wrap the function."""
         token = None
 
-        if 'X-API-KEY' in request.headers:
-            token = request.headers['X-API-KEY']
+        if 'access_token' in request.headers:
+            token = request.headers['access_token']
 
         # Verifies token is present
         if not token:

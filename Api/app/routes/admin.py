@@ -6,7 +6,7 @@ from flask import request
 from app.DB import manage
 from app.models.token import token_required
 
-ns = Namespace('admin', description='admin Related Operation.')
+ns = Namespace('admin', description='Admin Related Operation.')
 
 status_model = ns.model(
     'status_model', {
