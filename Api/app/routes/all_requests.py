@@ -8,7 +8,7 @@ from app.models.request import CreateRequest
 from app.models.token import token_required
 
 request_namespace = Namespace(
-    'requests', description='Request Related Operation.')
+    'users', description='Request Related Operation.')
 
 request_model = request_namespace.model(
     'request_model', {
@@ -35,28 +35,25 @@ request_model = request_namespace.model(
     responses={
         200: 'Requests found successfully',
         404: 'Requests not found',
+        201: 'Request successfully created',
+        400: 'Invalid parameters provided'
     },
     security='apikey')
-class AllReaquests(Resource):
+class UserReaquests(Resource):
     """Handle [endpoint] GET."""
 
     @token_required
     def get(self, current_user):
+        """Get all requests [endpoint] GET."""
         user_req = manage.get_all_requests(current_user)
         if len(user_req) == 0:
             return {"Message": "No request found!"}, 404
         return user_req
 
     @token_required
-    @request_namespace.doc(
-        responses={
-            201: 'Request successfully created',
-            400: 'Invalid parameters provided'
-        },
-        security='apikey')
     @request_namespace.expect(request_model)
     def post(self, user_id):
-        """Handle [Endpoint] POST."""
+        """Handle [Endpoint] POST - User create request."""
         data = request.get_json()
         try:
             user_request = data['user_request']
@@ -69,23 +66,32 @@ class AllReaquests(Resource):
             return {'Message': "All input data required"}, 400
 
 
+@request_namespace.doc(
+    responses={
+        201: 'Request successfully updated!',
+        400: 'Invalid parameters provided',
+        404: 'Requests not found',
+        403: 'Access Denied'
+    },
+    security='apikey')
 @request_namespace.route('/requests/<int:requestId>')
 class UpdateRequest(Resource):
     """Handle [Endpoint] PUT."""
 
     @request_namespace.expect(request_model)
     @token_required
-    @request_namespace.doc(
-        responses={
-            201: 'Request successfully updated!',
-            400: 'Invalid parameters provided'
-        },
-        security='apikey')
     def put(self, current_user, requestId):
+        """Update user request."""
+        data = request.get_json()
         edit_req = manage.get_request(requestId)
+        status = manage.check_status(requestId)
+
         if len(edit_req) == 0:
             return {"Message": "No request found!"}, 404
-        data = request.get_json()
+        if status['status'] == 'approve':
+            return {
+                'Message': 'Denied update!, Request already approved.'
+            }, 403
         try:
             edit_user_request = data['user_request']
             edit_category = data['category']
@@ -97,26 +103,20 @@ class UpdateRequest(Resource):
             return {'Message': 'All input data required!'}, 400
 
     @token_required
-    @request_namespace.doc(
-        responses={
-            200: 'Requests found successfully',
-            404: 'Requests not found',
-        },
-        security='apikey')
     def get(self, current_user, requestId):
+        """Get one request by userID."""
         req = manage.get_request(requestId)
         if len(req) == 0:
-            return {'Message': 'No request found!'}
+            return {'Message': 'No request found!'}, 404
         return req
 
     @token_required
     @request_namespace.doc(
         responses={
             200: 'Request Deleted successfully',
-            404: 'Request not found',
-        },
-        security='apikey')
+        }, security='apikey')
     def delete(self, current_user, requestId):
+        """Delete existing request."""
         req = manage.get_request(requestId)
         manage.delete_request(requestId)
         if len(req) == 0:

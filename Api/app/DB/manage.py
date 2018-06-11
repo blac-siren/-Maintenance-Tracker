@@ -1,9 +1,8 @@
 """Module handle functionality of database."""
-from app.DB.conn import TrackerDB
+from app.api import db
 import psycopg2
 
 # instantiate class object
-db = TrackerDB()
 
 
 def insert_user(username, email, password, admin):
@@ -73,3 +72,40 @@ def delete_request(requestId):
     """Delete request by id."""
     db.cur.execute("""DELETE FROM requests WHERE id=%s""", (requestId, ))
     db.conn.commit()
+
+
+def all_requests_admin():
+    """Get all request for all users."""
+    db.query("""SELECT * FROM requests""")
+    all_req = db.cur.fetchall()
+    return all_req
+
+
+def check_status(requestId):
+    """Check status of request."""
+    db.cur.execute("""SELECT status FROM requests WHERE id = %s""",
+                   (requestId, ))
+    status = db.cur.fetchone()
+    return status
+
+
+def update_status(status, requestId):
+    """Admin approve/disapprove or reject request."""
+    db.cur.execute("""UPDATE requests SET status=%s WHERE id=%s""",
+                   (status, requestId))
+    db.conn.commit()
+
+
+def search_admin():
+    """Search user admin in database."""
+    db.cur.execute("""SELECT * FROM users WHERE admin=True""")
+    all_admin = db.cur.fetchall()
+    return all_admin
+
+
+def confirm_admin(email):
+    """Check if user is admin."""
+    db.cur.execute("""SELECT * FROM users WHERE admin=True and email=%s""",
+                   (email, ))
+    variable = db.cur.fetchall()
+    return variable

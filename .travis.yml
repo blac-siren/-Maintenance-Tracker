@@ -8,6 +8,11 @@ install:
   - pip install -r requirements.txt
   - pip install coveralls
 
+before_script:
+  - psql -c 'create database trackertest;' -U postgres
+  - psql -c 'create database trackerapp;' -U postgres
+  - python3 Api/run_migration.py
+
 script:
   - cd Api
   - nosetests --with-coverage --cover-package=app

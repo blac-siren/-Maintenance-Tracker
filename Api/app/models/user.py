@@ -1,4 +1,4 @@
-"""Module for user."""
+"""Module for user model."""
 from flask_bcrypt import Bcrypt
 import datetime
 import jwt
@@ -8,7 +8,7 @@ from app.DB import manage
 
 
 class User:
-    """Store user info into dictionary."""
+    """User class model."""
 
     def __init__(self, username, email, password, admin=False):
         self.username = username
@@ -18,7 +18,7 @@ class User:
         self.admin = admin
 
     def save_user(self):
-        """Save user in database."""
+        """Save user in a database."""
         manage.insert_user(self.username, self.email, self.password_hash,
                            self.admin)
 

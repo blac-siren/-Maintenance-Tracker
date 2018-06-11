@@ -3,7 +3,7 @@ from app.DB import manage
 
 
 class CreateRequest:
-    """Class saves request."""
+    """Class for request model."""
 
     def __init__(self,
                  user_request,

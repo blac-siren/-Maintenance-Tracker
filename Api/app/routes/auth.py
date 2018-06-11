@@ -35,6 +35,7 @@ registration_model = auth_namespace.inherit(
     })
 
 email_regex = re.compile(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)")
+pattern = re.compile(r"(^[A-Za-z]+$)")
 
 
 @auth_namespace.route('/register')
@@ -45,23 +46,33 @@ class Registration(Resource):
     def post(self):
         """Register new user."""
         data = request.get_json()
+        emails = manage.get_all_emails()
         try:
             email = data['email']
             username = data['username']
             password = data['password']
         except KeyError:
             return {'Message': 'All input data required!'}, 400
-        if len(email) > 5 and not re.match(email_regex, email):
+
+        if len(username) > 4 and not re.match(pattern, username):
             return {
-                'Message': '{} is not a valid email address'.format(email)
+                'Status':
+                'Error',
+                'Message':
+                '{} is not invalid, must be atleast 4 letters'.format(username)
             }, 400
 
-        emails = manage.get_all_emails()
         if [email_db for email_db in emails if email_db['email'] == email]:
-            return {'Message': 'Email already'}, 406
+            return {'Message': 'Email already exist'}, 406
 
+        # checks email syntax
+        if len(email) > 5 and not re.match(email_regex, email):
+            return {
+                'Status': 'Error',
+                'Message': '{} is not a valid email address'.format(email)
+            }, 400
         if len(password) <= 8:
-            return {'Message': "Password must be greater than 8"}, 411
+            return {'Message': "Password must be atleast 8 characters"}, 411
         else:
             user = User(username, email, password)
             user.save_user()
