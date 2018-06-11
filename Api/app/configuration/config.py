@@ -14,7 +14,7 @@ class DevelopmentConfig(Config):
 
     DEBUG = False
     TESTING = False
-    DATABASE_URI = os.environ.get('DATABASE_URI', 'postgresql://postgres:zakaria@localhost/trackerapp')
+    DATABASE_URI = os.environ.get('DATABASE_URL', 'postgresql://postgres:zakaria@localhost/trackerapp')
 
 
 
@@ -23,7 +23,7 @@ class TestingConfig(Config):
 
     TESTING = True
     DEBUG = True
-    DATABASE_URI = os.environ.get('DATABASE_URI', 'postgresql://postgres:zakaria@localhost/trackertest')
+    DATABASE_URI = os.environ.get('DATABASE_URL', 'postgresql://postgres:zakaria@localhost/trackertest')
 
 
 class ProductionConfig(Config):
@@ -31,7 +31,7 @@ class ProductionConfig(Config):
 
     DEBUG = False
     TESTING = False
-    DATABASE_URI = os.environ.get('DATABASE_URI', '')
+    DATABASE_URI = os.environ.get('DATABASE_URL', '')
 
 
 app_config = {
