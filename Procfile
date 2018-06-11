@@ -1,1 +1,1 @@
-web: sh -c 'cd ./api/ && python3 run.py'
+web: sh -c 'cd ./Api/ && python3 run.py'
