@@ -32,9 +32,9 @@ def create_tables(db):
         db.conn.rollback()
 
 
-def run_migrations():
+def run_migrations(migration):
     db = TrackerDB()
-    db.init_app('development')
+    db.init_app(migration)
     create_tables(db)
 
 
