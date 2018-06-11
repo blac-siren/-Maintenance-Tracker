@@ -7,12 +7,27 @@ Maintenance Tracker App is an application that provides users with the ability t
 ## Prerequisites
 
 Python 2.6 or a later version
+Postgresq
 
 ## Dependencies
 Install all package requirements in your python virtual environment.
 ```
 pip install -r requirements.txt
 ```
+Ensure yourdatabase is up and running on local commandline
+in linux : ```service postgresql start```
+
+Create two database called trackerapp and trackertest-used for testing and then create Two table
+i.e users and requests. Then navigate your config file and setup a database variable in development and testing
+example
+``` class DevelopmentConfig(Config):
+    """Configuration for development."""
+
+    DEBUG = False
+    TESTING = False
+    DATABASE_URI = os.environ.get('DATABASE_URL', 'postgresql://postgres:zakaria@localhost/trackerapp')
+```
+
 ## Env
 Create.env file
 
