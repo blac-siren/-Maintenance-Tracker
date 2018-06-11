@@ -7,7 +7,7 @@ authorization = {
     'apikey': {
         'type': 'apiKey',
         'in': 'header',
-        'name': 'X-API-KEY'
+        'name': 'access_token'
     }
 }
 
@@ -20,7 +20,6 @@ api = Api(
 
 # delete default namespace.
 del api.namespaces[0]
-
 
 db = TrackerDB()
 

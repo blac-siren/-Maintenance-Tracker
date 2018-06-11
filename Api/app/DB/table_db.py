@@ -1,6 +1,8 @@
 """Create table for the database."""
 import psycopg2
 from app.DB.conn import TrackerDB
+
+
 def create_tables(db):
     """Create tables in postgres database."""
 

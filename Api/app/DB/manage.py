@@ -81,6 +81,14 @@ def all_requests_admin():
     return all_req
 
 
+def check_status(requestId):
+    """Check status of request."""
+    db.cur.execute("""SELECT status FROM requests WHERE id = %s""",
+                   (requestId, ))
+    status = db.cur.fetchone()
+    return status
+
+
 def update_status(status, requestId):
     """Admin approve/disapprove or reject request."""
     db.cur.execute("""UPDATE requests SET status=%s WHERE id=%s""",
