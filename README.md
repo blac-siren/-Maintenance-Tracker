@@ -63,14 +63,14 @@ $ nosetests
 | /api/v1/auth/logout | GET | Logs out a user | TRUE
 | /api/v1/auth/register | POST | Registers new user | FALSE
 | /api/v1/users/requests | GET | Get every request of logged in user|TRUE
-| /api/v1/users/requests/{_id} | GET | Get a request with {id} of logged in user|TRUE
+| /api/v1/users/requests/requestId} | GET | Get a request with {id} of logged in user|TRUE
 | /api/v1/users/requests | POST | Create a new request|TRUE
-| /api/v1/users/requests/{_id}  | PUT | Update a request with {id} of logged in user|TRUE
-| /api/v1/users/requests/{_id} | DELETE | Delete request with {id} of logged in user|TRUE
+| /api/v1/users/requests/requestId} | PUT | Update a request with {id} of logged in user|TRUE
+| /api/v1/users/requests/requestId} | DELETE | Delete request with {id} of logged in user|TRUE
 | /api/v1/requests | GET | GET all users requests|ADMIN ONLY
 | /api/v1/requests/{id}/approve | PUT | Admin approve a pending request|ADMIN ONLY
-| /api/v1/requests/{id}/disaprove| PUT | Admin disaprove a pending request|ADMIN ONLY
-| /api/v1/requests/{id}/approve | PUT | Admin resolve request|ADMIN ONLY
+| /api/v1/requests/{requestId}/disaprove| PUT | Admin disaprove a pending request|ADMIN ONLY
+| /api/v1/requests/{requestId}/approve | PUT | Admin resolve request|ADMIN ONLY
 
 ## Deployment
 http://m-tracker-api.herokuapp.com/
