@@ -53,7 +53,7 @@ class UserReaquests(Resource):
     @token_required
     @request_namespace.expect(request_model)
     def post(self, user_id):
-        """Handle [Endpoint] POST."""
+        """Handle [Endpoint] POST - User create request."""
         data = request.get_json()
         try:
             user_request = data['user_request']
