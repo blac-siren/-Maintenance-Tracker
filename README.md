@@ -53,10 +53,9 @@ $ nosetests
 | /api/v1/users/requests/{_id}  | PUT | Update a request with {id} of logged in user|TRUE
 | /api/v1/users/requests/{_id} | DELETE | Delete request with {id} of logged in user|TRUE
 | /api/v1/requests | GET | GET all users requests|ADMIN ONLY
-| /api/V1/requests/{id}/approve | PUT | Admin approve a pending request|ADMIN ONLY
-| /api/V1/requests/{id}/disaprove| PUT | Admin disaprove a pending request|ADMIN ONLY
-| /api/V1/requests/{id}/approve | PUT | Admin resolve request|ADMIN ONLY
-| /api-1.0/auth/categories/{id}/recipes/{id} | PUT | Updates a single recipe|TRUE
+| /api/v1/requests/{id}/approve | PUT | Admin approve a pending request|ADMIN ONLY
+| /api/v1/requests/{id}/disaprove| PUT | Admin disaprove a pending request|ADMIN ONLY
+| /api/v1/requests/{id}/approve | PUT | Admin resolve request|ADMIN ONLY
 
 ## Deployment
 http://m-tracker-api.herokuapp.com/
