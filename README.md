@@ -42,16 +42,21 @@ $ nosetests
 
 ### Api endpoints
 
-| URL | Method|  Description 
-| --- | --- | --- 
-| api/v1/auth/register | POST | Registers new user 
-| api/v1/auth/login | POST | Handles POST request for login
-| api/v1/auth/logout | GET | Logout a user.
-| api/v1/users/requests | GET | Get every requests of logged in user
-| api/v1/users/requests/{id} | GET | Gets a request 
-| api/v1/users/requests | POST | Create a new request
-| api/v1/users/requests/{requestId}  | PUT | Update an existing request
-| api/v1/users/requests/{requestId} | DELETE | Delete request
+| url | Method|  Description| Authentication |
+| --- | --- | --- | --- |
+| /api/v1/auth/login | POST | Handles POST request for /auth/login | TRUE
+| /api/v1/auth/logout | GET | Logs out a user | TRUE
+| /api/v1/auth/register | POST | Registers new user | FALSE
+| /api/v1/users/requests | GET | Get every request of logged in user|TRUE
+| /api/v1/users/requests/{_id} | GET | Get a request with {id} of logged in user|TRUE
+| /api/v1/users/requests | POST | Create a new request|TRUE
+| /api/v1/users/requests/{_id}  | PUT | Update a request with {id} of logged in user|TRUE
+| /api/v1/users/requests/{_id} | DELETE | Delete request with {id} of logged in user|TRUE
+| /api/v1/requests | GET | GET all users requests|ADMIN ONLY
+| /api/V1/requests/{id}/approve | PUT | Admin approve a pending request|ADMIN ONLY
+| /api/V1/requests/{id}/disaprove| PUT | Admin disaprove a pending request|ADMIN ONLY
+| /api/V1/requests/{id}/approve | PUT | Admin resolve request|ADMIN ONLY
+| /api-1.0/auth/categories/{id}/recipes/{id} | PUT | Updates a single recipe|TRUE
 
 ## Deployment
 http://m-tracker-api.herokuapp.com/
