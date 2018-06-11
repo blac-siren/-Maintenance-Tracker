@@ -1,5 +1,5 @@
 """Module for Authentication endpoint tests."""
-from base import BaseApiTestcase
+from app.tests.base import BaseApiTestcase
 import json
 
 
