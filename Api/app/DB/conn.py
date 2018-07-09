@@ -11,7 +11,7 @@ class TrackerDB:
         """Database Constructor Method."""
         config_object = app_config[config_name]
         self.db = config_object.DATABASE_URI
-        self.conn = psycopg2.connect(self.db)
+        self.conn = psycopg2.connect(self.db, sslmode='require')
         self.cur = self.conn.cursor(cursor_factory=RealDictCursor)
 
     def query(self, query):
