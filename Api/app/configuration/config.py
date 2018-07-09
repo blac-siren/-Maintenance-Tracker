@@ -22,7 +22,7 @@ class TestingConfig(Config):
     """Configuration for testing with a separate testing database."""
 
     TESTING = True
-    DEBUG = True
+    DEBUG = False
     DATABASE_URI = os.environ.get(
         'DATABASE_URL', 'postgresql://postgres:zakaria@localhost/trackertest')
 
