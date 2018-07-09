@@ -33,7 +33,8 @@ def get_password_hash(email):
 
 def get_all_requests(email):
     """Get all request made by certain user."""
-    db.cur.execute("""SELECT * FROM requests WHERE created_by = %s""",
+    db.cur.execute("""SELECT id, user_request, category, location, status
+    FROM requests WHERE created_by = %s""",
                    (email, ))
     existing_requests = db.cur.fetchall()
     return existing_requests
