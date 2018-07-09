@@ -1,4 +1,4 @@
-adns-python==1.2.1
+adns-python
 aniso8601==3.0.0
 anyjson==0.3.3
 argcomplete==1.8.1
