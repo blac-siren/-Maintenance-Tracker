@@ -51,6 +51,25 @@ class AllReaquests(Resource):
 
 @ns.doc(
     responses={
+        200: 'Requests found successfully',
+        404: 'Requests not found',
+    },
+    security='apikey')
+@ns.route('/<int:requestId>')
+class SpecificRequest(Resource):
+    """Handle [endpoint] GET."""
+
+    @token_required
+    def get(self, current_user, requestId):
+        """Get one request by userID."""
+        req = manage.get_request(requestId)
+        if len(req) == 0:
+            return {'Message': 'No request found!'}, 404
+        return {'request': req}
+
+
+@ns.doc(
+    responses={
         201: 'Successfully updated',
         404: 'Requests not found',
         403: 'Access Denied!'

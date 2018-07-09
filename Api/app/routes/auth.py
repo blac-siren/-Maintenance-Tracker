@@ -54,22 +54,21 @@ class Registration(Resource):
         except KeyError:
             return {'Message': 'All input data required!'}, 400
 
-        if len(username) > 4 and not re.match(pattern, username):
+        if not re.match(pattern, username):
             return {
-                'Status':
-                'Error',
-                'Message':
-                '{} is not invalid, must be atleast 4 letters'.format(username)
+                'Status': 'Error',
+                'Message': '{} is invalid username '.format(username)
             }, 400
 
         if [email_db for email_db in emails if email_db['email'] == email]:
-            return {'Message': 'Email already exist'}, 406
+            return {'Message': 'Ooops! Email already exist'}, 406
 
         # checks email syntax
-        if len(email) > 5 and not re.match(email_regex, email):
+        if not re.match(email_regex, email):
             return {
                 'Status': 'Error',
-                'Message': '{} is not a valid email address'.format(email)
+                'Message':
+                'Ooops! {} is not a valid email address'.format(email)
             }, 400
         if len(password) <= 8:
             return {'Message': "Password must be atleast 8 characters"}, 411
@@ -77,7 +76,7 @@ class Registration(Resource):
             user = User(username, email, password)
             user.save_user()
 
-            return {'Message': 'Successfully Registered'}, 201
+            return {'Message': 'Your Successfully Registered'}, 201
 
 
 @auth_namespace.route('/login')
@@ -109,10 +108,16 @@ class Login(Resource):
                     .check_password_hash(password_hash['password'], password)
             ]:
                 access_token = User.generate_token(email)
-
-                return {
-                    'Access token': access_token.decode(),
-                    'Message': 'Successfully logged in!'
-                }, 200
+                confirm = manage.confirm_admin(email)
+                if len(confirm) == 0:
+                    return {
+                        'Access_token': access_token.decode(),
+                        'Message': 'Successfully logged in!'
+                    }, 200
+                else:
+                    return {
+                        'Access_token': access_token.decode(),
+                        "Message": "Welcome Admin"
+                    }, 200
             else:
                 return {'Message': 'Incorrect email or password'}, 401

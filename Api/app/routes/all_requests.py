@@ -47,8 +47,8 @@ class UserReaquests(Resource):
         """Get all requests [endpoint] GET."""
         user_req = manage.get_all_requests(current_user)
         if len(user_req) == 0:
-            return {"Message": "No request found!"}, 404
-        return user_req
+            return {"Message": "No request found! Please create one"}, 404
+        return {'requests': user_req}
 
     @token_required
     @request_namespace.expect(request_model)
@@ -108,7 +108,7 @@ class UpdateRequest(Resource):
         req = manage.get_request(requestId)
         if len(req) == 0:
             return {'Message': 'No request found!'}, 404
-        return req
+        return {'request': req}
 
     @token_required
     @request_namespace.doc(
@@ -121,4 +121,4 @@ class UpdateRequest(Resource):
         manage.delete_request(requestId)
         if len(req) == 0:
             return {"Message": "Such request not found!!"}
-        return {'Message': 'Deleted {} from your requests.'.format(req)}, 200
+        return {'Message': 'Succcessfully deleted request {}'.format(requestId)}, 200

@@ -1,7 +1,10 @@
 from flask import Flask
+
 from flask_restplus import Api
+from flask_cors import CORS
 from app.configuration.config import app_config
 from app.DB.table_db import TrackerDB
+
 
 authorization = {
     'apikey': {
@@ -26,6 +29,7 @@ db = TrackerDB()
 
 def create_app(config_name):
     app = Flask(__name__)
+    CORS(app)
     app.config.from_object(app_config[config_name])
     db.init_app(config_name)
 
