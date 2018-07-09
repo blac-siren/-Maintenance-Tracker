@@ -6,8 +6,8 @@ from app.DB.conn import TrackerDB
 def create_tables(db):
     """Create tables in postgres database."""
 
-    # db.query("""DROP TABLE IF EXISTS users""")
-    # db.query("""DROP TABLE IF EXISTS requests""")
+    db.query("""DROP TABLE IF EXISTS users CASCADE""")
+    db.query("""DROP TABLE IF EXISTS requests CASCADE""")
 
     try:
         db.query("""
@@ -38,11 +38,3 @@ def run_migrations(migration):
     create_tables(db)
 
 
-def drop_tables(db):
-    """Clear database."""
-    db.query("""DROP TABLE IF EXISTS users CASCADE""")
-    db.query("""DROP TABLE IF EXISTS requests CASCADE""")
-    db.conn.commit()
-
-
-# dropeverything(db)

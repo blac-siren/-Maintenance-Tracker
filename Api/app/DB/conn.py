@@ -3,6 +3,7 @@ import psycopg2
 from app.configuration.config import app_config
 from psycopg2.extras import RealDictCursor
 
+
 class TrackerDB:
     """Class for database."""
 
