@@ -12,7 +12,7 @@ class Config:
 class DevelopmentConfig(Config):
     """Configuration for development."""
 
-    DEBUG = False
+    DEBUG = True
     TESTING = False
     DATABASE_URI = os.environ.get('DATABASE_URL', 'postgresql://postgres:zakaria@localhost/trackerapp')
 
