@@ -15,7 +15,7 @@ class DevelopmentConfig(Config):
     DEBUG = False
     TESTING = False
     DATABASE_URI = os.environ.get(
-        'DATABASE_URL', 'postgres://mqjunhtxyfszzn:c3c440040ffe1eb2e1f9aef28fe6dafac502035086e36b56ea5883501a33410b@ec2-54-83-59-120.compute-1.amazonaws.com:5432/de02p4etpinbrh')
+        'DATABASE_URL', 'postgresql://postgres:zakaria@localhost/trackerapp')
 
 
 class TestingConfig(Config):
