@@ -16,7 +16,7 @@ class TestAuthEndpoints(BaseApiTestcase):
 
         # get the result in json format
         result = json.loads(response.data)
-        self.assertEqual(result['Message'], 'Successfully Registered')
+        self.assertEqual(result['Message'], 'Your Successfully Registered')
         self.assertEqual(response.status_code, 201)
 
     def test_register_with_short_password(self):
@@ -48,7 +48,7 @@ class TestAuthEndpoints(BaseApiTestcase):
         # get the result in json format
         result = json.loads(res.data)
         self.assertEqual(result['Message'],
-                         'apple.com is not a valid email address')
+                         'Ooops! apple.com is not a valid email address')
         self.assertEqual(res.status_code, 400)
 
     def test_registration_with_less_data_provided(self):
@@ -79,7 +79,7 @@ class TestAuthEndpoints(BaseApiTestcase):
             content_type="application/json")
 
         result = json.loads(second_res.data)
-        self.assertEqual(result['Message'], 'Email already exist')
+        self.assertEqual(result['Message'], 'Ooops! Email already exist')
 
     # test login
     def test_user_login(self):
