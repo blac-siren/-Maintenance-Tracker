@@ -61,7 +61,7 @@ class RequestTestCase(unittest.TestCase):
             data=json.dumps(self.user_details),
             content_type="application/json")
 
-        access_token = json.loads(login_res.data.decode())['Access token']
+        access_token = json.loads(login_res.data.decode())['access_token']
         res = self.client().post(
             '/api/v1/users/requests',
             content_type="application/json",
@@ -84,7 +84,7 @@ class RequestTestCase(unittest.TestCase):
             data=json.dumps(self.user_details),
             content_type="application/json")
 
-        access_token = json.loads(login_res.data.decode())['Access token']
+        access_token = json.loads(login_res.data.decode())['access_token']
         self.client().post(
             '/api/v1/users/requests',
             content_type="application/json",
@@ -109,7 +109,7 @@ class RequestTestCase(unittest.TestCase):
             data=json.dumps(self.user_details),
             content_type="application/json")
 
-        access_token = json.loads(login_res.data.decode())['Access token']
+        access_token = json.loads(login_res.data.decode())['access_token']
 
         res1 = self.client().get(
             '/api/v1/users/requests',
@@ -129,7 +129,7 @@ class RequestTestCase(unittest.TestCase):
             data=json.dumps(self.user_details),
             content_type="application/json")
 
-        access_token = json.loads(login_res.data.decode())['Access token']
+        access_token = json.loads(login_res.data.decode())['access_token']
         self.client().post(
             '/api/v1/users/requests',
             content_type="application/json",
@@ -161,7 +161,7 @@ class RequestTestCase(unittest.TestCase):
             data=json.dumps(self.user_details),
             content_type="application/json")
 
-        access_token = json.loads(login_res.data.decode())['Access token']
+        access_token = json.loads(login_res.data.decode())['access_token']
         self.client().post(
             '/api/v1/users/requests',
             content_type="application/json",
@@ -192,7 +192,7 @@ class RequestTestCase(unittest.TestCase):
             data=json.dumps(self.user_details),
             content_type="application/json")
 
-        access_token = json.loads(login_res.data.decode())['Access token']
+        access_token = json.loads(login_res.data.decode())['access_token']
         self.client().post(
             '/api/v1/users/requests',
             content_type="application/json",
@@ -216,7 +216,7 @@ class RequestTestCase(unittest.TestCase):
             data=json.dumps(self.user_details),
             content_type="application/json")
 
-        access_token = json.loads(login_res.data.decode())['Access token']
+        access_token = json.loads(login_res.data.decode())['access_token']
         edit_res = self.client().put(
             'api/v1/users/requests/10',
             data=json.dumps({
@@ -242,7 +242,7 @@ class RequestTestCase(unittest.TestCase):
             data=json.dumps(self.user_details),
             content_type="application/json")
 
-        access_token = json.loads(login_res.data.decode())['Access token']
+        access_token = json.loads(login_res.data.decode())['access_token']
         self.client().post(
             '/api/v1/users/requests',
             content_type="application/json",
@@ -263,39 +263,35 @@ class RequestTestCase(unittest.TestCase):
 
         # admin endpoints
     def test_unathorized_admin(self):
-        res= self.client().get(
-        'api/v1/requests/',
-        content_type="application/json")
+        res = self.client().get(
+            'api/v1/requests/',
+            content_type="application/json")
         self.assertEqual(res.status_code, 401)
 
     def test_unauthorized_approved_request(self):
         self.client().post(
-        'api/v1/auth/register',
-        data=json.dumps(self.admin_details),
-        content_type="application/json")
+            'api/v1/auth/register',
+            data=json.dumps(self.admin_details),
+            content_type="application/json")
 
         login_res = self.client().post(
-        'api/v1/auth/login',
-        data=json.dumps(self.admin_details),
-        content_type="application/json")
+            'api/v1/auth/login',
+            data=json.dumps(self.admin_details),
+            content_type="application/json")
 
-        access_token = json.loads(login_res.data.decode())['Access token']
+        access_token = json.loads(login_res.data.decode())['access_ken']
         self.client().post(
-        '/api/v1/users/requests',
-        content_type="application/json",
-        data=json.dumps(self.request),
-        headers=dict(access_token=access_token))
+            '/api/v1/users/requests',
+            content_type="application/json",
+            data=json.dumps(self.request),
+            headers=dict(access_token=access_token))
 
         edit_res = self.client().put(
-        'api/v1/requests/1/approve',
-        data=json.dumps({
-        "status": "approve"
-        }),
-        content_type='application/json',
-        headers=dict(access_token=access_token))
+            'api/v1/requests/1/approve',
+            data=json.dumps({
+                "status": "approve"
+            }),
+            content_type='application/json',
+            headers=dict(access_token=access_token))
 
         self.assertEqual(edit_res.status_code, 403)
-
-
-
-
