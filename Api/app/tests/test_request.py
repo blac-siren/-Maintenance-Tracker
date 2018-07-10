@@ -61,7 +61,7 @@ class RequestTestCase(unittest.TestCase):
             data=json.dumps(self.user_details),
             content_type="application/json")
 
-        access_token = json.loads(login_res.data.decode())['access_token']
+        access_token = json.loads(login_res.data.decode())['Access_token']
         res = self.client().post(
             '/api/v1/users/requests',
             content_type="application/json",
@@ -84,7 +84,7 @@ class RequestTestCase(unittest.TestCase):
             data=json.dumps(self.user_details),
             content_type="application/json")
 
-        access_token = json.loads(login_res.data.decode())['access_token']
+        access_token = json.loads(login_res.data.decode())['Access_token']
         self.client().post(
             '/api/v1/users/requests',
             content_type="application/json",
@@ -109,7 +109,7 @@ class RequestTestCase(unittest.TestCase):
             data=json.dumps(self.user_details),
             content_type="application/json")
 
-        access_token = json.loads(login_res.data.decode())['access_token']
+        access_token = json.loads(login_res.data.decode())['Access_token']
 
         res1 = self.client().get(
             '/api/v1/users/requests',
@@ -129,7 +129,7 @@ class RequestTestCase(unittest.TestCase):
             data=json.dumps(self.user_details),
             content_type="application/json")
 
-        access_token = json.loads(login_res.data.decode())['access_token']
+        access_token = json.loads(login_res.data.decode())['Access_token']
         self.client().post(
             '/api/v1/users/requests',
             content_type="application/json",
@@ -161,7 +161,7 @@ class RequestTestCase(unittest.TestCase):
             data=json.dumps(self.user_details),
             content_type="application/json")
 
-        access_token = json.loads(login_res.data.decode())['access_token']
+        access_token = json.loads(login_res.data.decode())['Access_token']
         self.client().post(
             '/api/v1/users/requests',
             content_type="application/json",
@@ -192,7 +192,7 @@ class RequestTestCase(unittest.TestCase):
             data=json.dumps(self.user_details),
             content_type="application/json")
 
-        access_token = json.loads(login_res.data.decode())['access_token']
+        access_token = json.loads(login_res.data.decode())['Access_token']
         self.client().post(
             '/api/v1/users/requests',
             content_type="application/json",
@@ -216,7 +216,7 @@ class RequestTestCase(unittest.TestCase):
             data=json.dumps(self.user_details),
             content_type="application/json")
 
-        access_token = json.loads(login_res.data.decode())['access_token']
+        access_token = json.loads(login_res.data.decode())['Access_token']
         edit_res = self.client().put(
             'api/v1/users/requests/10',
             data=json.dumps({
@@ -242,7 +242,7 @@ class RequestTestCase(unittest.TestCase):
             data=json.dumps(self.user_details),
             content_type="application/json")
 
-        access_token = json.loads(login_res.data.decode())['access_token']
+        access_token = json.loads(login_res.data.decode())['Access_token']
         self.client().post(
             '/api/v1/users/requests',
             content_type="application/json",
@@ -279,7 +279,7 @@ class RequestTestCase(unittest.TestCase):
             data=json.dumps(self.admin_details),
             content_type="application/json")
 
-        access_token = json.loads(login_res.data.decode())['access_ken']
+        access_token = json.loads(login_res.data.decode())['Access_token']
         self.client().post(
             '/api/v1/users/requests',
             content_type="application/json",
