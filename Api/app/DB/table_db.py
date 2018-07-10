@@ -6,9 +6,6 @@ from app.DB.conn import TrackerDB
 def create_tables(db):
     """Create tables in postgres database."""
 
-    db.query("""DROP TABLE IF EXISTS users CASCADE""")
-    db.query("""DROP TABLE IF EXISTS requests CASCADE""")
-
     try:
         db.query("""
         CREATE TABLE users (id SERIAL PRIMARY KEY,
@@ -32,9 +29,16 @@ def create_tables(db):
         db.conn.rollback()
 
 
+def drop_tables(db):
+    """Drop table in postgres database."""
+    db.query("""DROP TABLE IF EXISTS users CASCADE""")
+    db.query("""DROP TABLE IF EXISTS requests CASCADE""")
+    db.conn.commit()
+
+
 def run_migrations(migration):
+    """Run migration."""
     db = TrackerDB()
     db.init_app(migration)
+    drop_tables(db)
     create_tables(db)
-
-
